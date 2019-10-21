@@ -12,7 +12,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import D3Component from './D3Component';
-import './style.scss';
+import './style.css';
 
 Topology.propTypes = {
   identifier: PropTypes.string,

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -24,7 +25,7 @@
 .topology line.link,
 .topology path.link {
   fill: none;
-  stroke: rgb(45, 45, 45);
+  stroke: #2d2d2d;
   stroke-width: 3px;
   cursor: default;
 }
@@ -44,11 +45,13 @@
 .topology g.s2TLink.hovered > path {
   cursor: pointer !important;
 }
+
 .topology g.t2SLink.selected > path.t2SLine,
 .topology g.s2TLink.selected > path.s2TLine {
   stroke-width: 10px !important;
   stroke: #f4e2ae !important;
 }
+
 .topology g.t2SLink.selected > path.t2SArrow,
 .topology g.s2TLink.selected > path.s2TArrow {
   stroke-width: 1px !important;
@@ -61,7 +64,7 @@
 
 .topology path.dragline {
   fill: none;
-  stroke: rgb(45, 45, 45);
+  stroke: #2d2d2d;
   stroke-width: 3px;
   cursor: default;
   pointer-events: none;
@@ -124,9 +127,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.topology .node-number-icon {
 }
 
 .topology path.hull.selected {
@@ -209,9 +209,11 @@ div.topology-tooltip {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
+
 .topology .minimap .frame {
   pointer-events: all;
 }
+
 .topology .minimap .frame .background {
   stroke: #555;
   stroke-width: 4px;
