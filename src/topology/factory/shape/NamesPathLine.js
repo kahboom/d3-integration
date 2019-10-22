@@ -1,5 +1,4 @@
 /**
- * 資料格式
  * data: {
  *  id, from, to, status, zIndex, name,
  *  names:[{id, nameFirst, nameColor, nameFontSize, prefix, prefixColor,

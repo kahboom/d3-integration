@@ -1,7 +1,6 @@
 import NetworkTemplate1 from './NetworkTemplate1';
 import NestedGroupLayout from '../layout/NestedGroupLayout';
 import Device from '../factory/shape/Device';
-import NetworkSwitch from '../factory/shape/NetworkSwitch';
 import NamesPathLine from '../factory/shape/NamesPathLine';
 import PortLine from '../factory/shape/PortLine';
 import SubLine from '../factory/shape/SubLine';
@@ -14,13 +13,12 @@ export default class VPC extends NetworkTemplate1 {
     const { state, props } = this;
     const projectState = state;
     const device = new Device({ ...props, projectState });
-    const networkSwitch = new NetworkSwitch({ ...props, projectState });
     const namesPathLine = new NamesPathLine({ ...props, projectState });
     const portLine = new PortLine({ ...props, projectState });
     const subLine = new SubLine({ ...props, projectState });
     //setting state
     const { factory } = state;
-    state.factory = { ...factory, device, networkSwitch, namesPathLine, portLine, subLine };
+    state.factory = { ...factory, device, namesPathLine, portLine, subLine };
   }
   layout(props) {
     return new SiteNetworkLayout({ ...props, type: 'custom', spec: this.state.spec, util: this.state.util, project: this });

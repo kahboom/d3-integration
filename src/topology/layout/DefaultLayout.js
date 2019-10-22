@@ -467,7 +467,7 @@ export default class DefaultLayout {
     return { x: get(temp, 'x'), y: get(temp, 'y') };
   }
   skipPointerDownEvent(nativeEvent) {
-    // 當點擊的對象是toolbar的按鈕時，不視為是選取節點或線的動作
+
     const eventDomPath = get(nativeEvent, 'path', []);
     const isToolbarEvent =
       eventDomPath.findIndex(dom => {

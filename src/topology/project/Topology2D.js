@@ -49,7 +49,9 @@ import { view as viewPrototype } from './spec/view';
 import { toolbar as toolbarPrototype } from './spec/toolbar';
 import get from 'lodash/get';
 import defaultsDeep from 'lodash/defaultsDeep';
+
 const d3 = Object.assign({}, require('d3-selection'));
+
 export default class Topology2D extends Based {
   init() {
     super.init();
@@ -102,10 +104,6 @@ export default class Topology2D extends Based {
   /**
     basic functions
   */
-  getFactoryKeyByType(type) {
-    const { factory } = this.state;
-    return type ? Object.keys(factory).find(k => k.toLowerCase() === type.toLowerCase()) : undefined;
-  }
 
   /* stubs */
   beforeProcessNodes() {}

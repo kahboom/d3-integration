@@ -48,6 +48,7 @@ export default function Topology(props) {
   // Declare a new state variable
   const [vis, setVis] = useState(undefined);
   const [message, setMessage] = useState(undefined);
+
   // init
   useEffect(() => {
     if (mode === '2d') {
@@ -60,7 +61,7 @@ export default function Topology(props) {
   // update
   useEffect(() => {
     if (vis) {
-      console.log('vis receiving new data');
+      console.log('receiving new data..');
       vis.update(props);
     }
   }, [data]);
@@ -69,8 +70,6 @@ export default function Topology(props) {
   useEffect(() => {
     if (vis) {
       return () => {
-        // quit
-        console.log('vis leaving...');
         vis.quit();
       };
     }

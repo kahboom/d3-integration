@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import parseSvgTransform from './svgTransformParser';
 //import { parse as parseSvgTransform } from 'svg-transform-parser';
 const d3 = Object.assign({}, require('d3-selection'), require('d3-scale'), require('d3-shape'));
-const configurations = {};
 
 const d3TopoUtil = {
   replaceIconByBrowser: function(nodeType) {
@@ -16,56 +15,6 @@ const d3TopoUtil = {
         }
       }
     }
-  },
-
-  removeConfiguration: function(id) {
-    delete configurations[id];
-  },
-
-  colorGoogleArray() {
-    return [
-      '#3366cc',
-      '#dc3912',
-      '#ff9900',
-      '#109618',
-      '#990099',
-      '#0099c6',
-      '#dd4477',
-      '#66aa00',
-      '#b82e2e',
-      '#316395',
-      '#994499',
-      '#22aa99',
-      '#aaaa11',
-      '#6633cc',
-      '#e67300',
-      '#8b0707',
-      '#651067',
-      '#329262',
-      '#5574a6',
-      '#3b3eac'
-    ];
-  },
-
-  colorGoogle: function() {
-    // return d3.scale.ordinal().range(this.colorGoogleArray());
-    return d3.scaleBand().range(this.colorGoogleArray());
-  },
-
-  isHullObj: function(obj) {
-    return obj && obj.id && obj.nodes && obj.path && obj.d3Id && obj.d3Id.indexOf('pathhull-') !== -1;
-  },
-
-  isRectGroupObj: function(obj) {
-    return obj && obj.id && obj.nodes && obj.d3Id && obj.d3Id.indexOf('rectgroup-') !== -1;
-  },
-
-  isNodeObj: function(obj) {
-    return obj && obj.id && obj.d3Id && obj.d3Id.indexOf('gnode-') !== -1;
-  },
-
-  isLinkObj: function(obj) {
-    return obj && obj.id && obj.d3Id && obj.d3Id.indexOf('glink-') !== -1;
   },
 
   isPanAction: function(mouseDownPosition, mouseUpPosition) {
@@ -117,32 +66,6 @@ const d3TopoUtil = {
     }
   },
 
-  isFirefoxAgent: function() {
-    if (this.isFirefoxAgentValue !== undefined) {
-      return this.isFirefoxAgentValue;
-    }
-    if (typeof window.InstallTrigger !== 'undefined') {
-      this.isFirefoxAgentValue = true;
-      return true;
-    } else {
-      this.isFirefoxAgentValue = false;
-      return false;
-    }
-  },
-
-  isSafariAgent: function() {
-    if (this.isSafariAgentValue !== undefined) {
-      return this.isSafariAgentValue;
-    }
-    if (Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') >= 0) {
-      this.isSafariAgentValue = true;
-      return true;
-    } else {
-      this.isSafariAgentValue = false;
-      return false;
-    }
-  },
-
   isNumber: function(n) {
     let result = false;
     try {
@@ -165,21 +88,6 @@ const d3TopoUtil = {
     if (!x2) x2 = 0;
     if (!y2) y2 = 0;
     return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-  },
-
-  getQuadrant(x, y) {
-    // 要注意的是拓撲的四個象限跟傳統數學四個象限的分佈不太一樣
-    let quadrant = -1;
-    if (x > 0 && y > 0) {
-      quadrant = 1;
-    } else if (x < 0 && y > 0) {
-      quadrant = 2;
-    } else if (x < 0 && y < 0) {
-      quadrant = 3;
-    } else if (x > 0 && y < 0) {
-      quadrant = 4;
-    }
-    return quadrant;
   },
 
   getValueFromObject(obj, key, defaultValue) {
@@ -241,7 +149,6 @@ const d3TopoUtil = {
   }) {
     let result;
     // https://www.dashingd3js.com/svg-paths-and-d3js
-    // bias就是點的padding
     bias = bias || { source: { x: 0, y: 0 }, target: { x: 0, y: 0 } };
     const defaultInterpolateTypes = {
       linear: d3.curveLinear,
@@ -317,7 +224,6 @@ const d3TopoUtil = {
     return { source: { x: sourceX, y: sourceY }, target: { x: targetX, y: targetY } };
   },
   getNorm(source, target) {
-    // 保持連接點一直面著兩點之間
     // 參考http://bl.ocks.org/rkirsling/5001347
     if (source !== undefined && target !== undefined) {
       const deltaX = target.x - source.x;
@@ -374,25 +280,6 @@ const d3TopoUtil = {
   getParsedSvgTransform(string) {
     return string ? parseSvgTransform(string) : {};
   },
-  functor(v) {
-    return typeof v === 'function'
-      ? v
-      : function() {
-          return v;
-        };
-  },
-  getPointerPosition(event) {
-    let x;
-    let y;
-    if (event instanceof TouchEvent) {
-      x = get(event, 'changedTouches[0].clientX', 0);
-      y = get(event, 'changedTouches[0].clientY', 0);
-    } else {
-      x = event.clientX || 0;
-      y = event.clientY || 0;
-    }
-    return { x, y };
-  },
   getComponentCenterPosition(dom, parentDom) {
     const position = { x: 0, y: 0 };
     const domElement = dom.node();
@@ -423,65 +310,9 @@ const d3TopoUtil = {
       }
     }
   },
-  findRegressionLineByTwoPoints(x1, y1, x2, y2) {
-    const a = x1 - x2 !== 0 ? (y1 - y2) / (x1 - x2) : 0;
-    const b = y1 - x1 * a;
-    return { a, b };
-  },
-  findRegressionLineByLeastSquares(valuesX, valuesY) {
-    let sumX = 0;
-    let sumY = 0;
-    let sumXy = 0;
-    let sumXx = 0;
-    let count = 0;
-    /*
-     * We'll use those variables for faster read/write access.
-     */
-    let x = 0;
-    let y = 0;
-    const valuesLength = valuesX.length;
-    if (valuesLength !== valuesY.length) {
-      throw new Error('The parameters valuesX and valuesY need to have same size!');
-    }
-    /*
-     * Nothing to do.
-     */
-    if (valuesLength === 0) {
-      return [[], []];
-    }
-    /*
-     * Calculate the sum for each of the parts necessary.
-     */
-    for (let v = 0; v < valuesLength; v++) {
-      x = valuesX[v];
-      y = valuesY[v];
-      sumX += x;
-      sumY += y;
-      sumXx += x * x;
-      sumXy += x * y;
-      count++;
-    }
-    /*
-     * Calculate a and b for the formular:
-     * y = x * a + b
-     */
-    const temp = count * sumXx - sumX * sumX;
-    const a = temp !== 0 ? (count * sumXy - sumX * sumY) / temp : 0;
-    const b = count !== 0 ? sumY / count - (a * sumX) / count : 0;
-    return { a, b };
-  },
-  restoreNodePosition(node) {
-    if (node.x !== undefined && node.addX !== undefined) {
-      node.x -= node.addX;
-    }
-    if (node.y !== undefined && node.addY !== undefined) {
-      node.y -= node.addY;
-    }
-    return true;
-  },
   distanceNodePosition({ node, additionalDistance, isExpand, incremental = 'v' }) {
     let result = false;
-    // 驗證expand是否可行
+
     if (isExpand && (node.addX !== undefined || node.addY !== undefined)) {
       return result;
     }
@@ -489,7 +320,7 @@ const d3TopoUtil = {
       // const quadrant = this.getQuadrant(node.x, node.y);
       let distanceFactorX = 1;
       let distanceFactorY = 1;
-      // 透過遞增函式，越遠增加越多距離的方式來擴展
+
       if (incremental === 'v') {
         // vertical incremental
         distanceFactorY = Math.log2(this.distance(0, 0, 0, node.y) / 100);

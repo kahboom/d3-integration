@@ -10,7 +10,6 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -114,7 +113,7 @@
 
 .topology .icon-set {
   margin: 5px 0;
-  font-family: 'Open Sans', '微軟正黑體', 'Microsoft JhengHei', Arial, sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
 }
 
 .topology .icon {
@@ -218,7 +217,6 @@ div.topology-tooltip {
   stroke: #555;
   stroke-width: 4px;
   fill-opacity: 0.1;
-  fill: #000000;
   fill: url(#minimapGradient_forMinimap);
   filter: url(#minimapDropShadow_forMinimap);
   cursor: move;

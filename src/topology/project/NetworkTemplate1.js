@@ -1,8 +1,4 @@
 /**
- * @description
- * 這個檔案繼承於project/Topology2D.js，已經預備有dnd, selection, 以及node, group, link shape生成的邏輯，
- * 使用者只要把data傳入即能獲得以上之操作功能。
- *
  * @class NetworkTemplate1
  * @param {object} props - ex. {identifier, projectName, width, height...}
  * @author Samuel Hsin
@@ -69,7 +65,7 @@ export default class NetworkTemplate1 extends Topology2D {
   dataPreprocessing(nodes, links) {
     const { enableGroup, projectName } = this.props;
     const { spec, factory } = this.state;
-    // 這個是在前端生成Group Node，並放入dummyGroupNodes和dummyGroupLinks
+
     if (enableGroup && nodes) {
       const groupNodeExpanding = e => {
         let event = new CustomEvent('updateTopology', { projectName });
@@ -129,10 +125,6 @@ export default class NetworkTemplate1 extends Topology2D {
     get(factory, 'pathLine').update(linkDom, data);
   }
 
-  removeLinks() {
-    // recheck dummygroupLinks
-  }
-
   addGroupContent(groupDom, data) {
     const { factory } = this.state;
     get(factory, 'rectScope').create(groupDom, data);
@@ -149,7 +141,7 @@ export default class NetworkTemplate1 extends Topology2D {
   }
 
   quit() {
-    // dom will be destroied
+    // Destroy DOM
     const { animation } = this.state;
     animation.stopAllAnimation();
   }

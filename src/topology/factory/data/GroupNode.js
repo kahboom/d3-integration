@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import intersection from 'lodash/intersection';
 import extend from 'lodash/extend';
 import { event as d3Event } from 'd3-selection';
-// const d3 = Object.assign({}, require('d3-scale'));
+
 export default {
   /**
    * cacheData{spec, dummyGroupNodes, dummyGroupLinks}
@@ -61,7 +61,7 @@ export default {
     // passing data
     const { dummyGroupNodes, groupNodeExpanding } = cacheData;
     // node config
-    // Collapsed 為收合的意思
+    // Collapsed
     const nodeExt = nodeType[category] ? nodeType[category].extensions || {} : {};
     const { createDummyGroupNodeIfNecessary, dummyGroupCategory, dummyGroupName, dummyGroupStatus } = nodeExt;
     const groupable = node.groupable;
@@ -94,7 +94,7 @@ export default {
           }
         }
         if (groupNode) {
-          // 是不是要有展開的按鈕
+
           if (groupNode.expandable) {
             if (!groupNode.toolbar) {
               groupNode.toolbar = [];
@@ -105,7 +105,7 @@ export default {
               }
             });
             if (!hasExpandFunction) {
-              // 展開的按鈕
+
               groupNode.toolbar.push({
                 name: 'expand',
                 visibleBySelect: false,
@@ -385,14 +385,14 @@ export default {
             const x = n.x + bias.x;
             const y = n.y + bias.y;
             if (!_r) {
-              // group還不存在於rects
+              // group rects
               _r = rects[groupId] = {};
               _r.minX = x - offset;
               _r.minY = y - offset;
               _r.maxX = x + offset;
               _r.maxY = y + offset;
             } else {
-              // group已存在於rects
+              // group rects
               let temp = x - offset;
               if (temp < _r.minX) {
                 _r.minX = temp;
@@ -432,28 +432,28 @@ export default {
         const views = [];
         const toolbar = [];
         if (groupMembers.length > 0 && groupNode.collapsible) {
-          // 加入收合的button
+          // button
           toolbar.push('collapse');
         }
-        // 計算group rect的中心點
+        // group rect
         const position = rects[i];
         // const x = (position.minX + position.maxX) / 2;
         // const y = (position.minY + position.maxY) / 2;
 
-        // 計算inner group deep
+        // inner group deep
         const innerGroupDeep = this.getGroupDeep(nodesById, get(groupNode, 'groupIds'));
 
-        // 計算group opacity
+        // group opacity
         let groupOpacity = 1;
         if (innerGroupDeep !== 0) {
-          const catalyst = 6; // 值越小，其factor數值越小
+          const catalyst = 6;
           const factor = 1 - innerGroupDeep / catalyst;
           groupOpacity = groupColorOpacity * (factor > 0.1 ? factor : 0.1);
         } else {
           groupOpacity = groupColorOpacity;
         }
 
-        // 新增group data
+        // group data
         const rect = extend(
           {},
           {

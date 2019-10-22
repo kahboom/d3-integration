@@ -1,6 +1,3 @@
 export const linkType = {
-  default: {},
-  VPC: {
-    default: {}
-  }
+  default: {}
 };

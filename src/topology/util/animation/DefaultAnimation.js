@@ -2,8 +2,7 @@ import d3TopoUtil from '../d3TopoUtil';
 import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 import LiquidFillGauge from './LiquidFillGauge';
-// 需要特別注意animation與timer有密切的關係，當dom unmount後，相關的timer要切確地被關掉： targetTimer
-// 可使用css來處理部份動畫效果，即不需用timer來處理
+
 export default class DefaultAnimation {
   targetTimer;
   constructor(props) {

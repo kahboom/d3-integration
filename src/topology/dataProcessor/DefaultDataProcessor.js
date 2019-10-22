@@ -66,7 +66,6 @@ export default class DefaultDataProcessor {
     this.processNodes(nodes, links);
     this.processLinks(nodes, links);
     if (enableGroup) {
-      // 基於nodes的isGroup, isExpand, expandable, groupIds, groupable來生成Group範圍底圖
       this.processGroups(nodes, links);
     }
     this.dataProcessed(nodes, links);

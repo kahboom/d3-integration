@@ -308,7 +308,6 @@ export default class D3Component {
           const s = stateData.find(s => s.id === p.id);
           if (s) {
             // --->update from props, --->remove from props
-            // 有一些欄位是d3操作所屬，如展開節點的isExpand，不能被props覆蓋
             const refP = stickyValues ? omit(p, stickyValues) : p;
             // merge
             merge(s, refP);
@@ -320,7 +319,6 @@ export default class D3Component {
           }
         });
         // --->remove from props
-        // 將props已經被刪除的node與link更新到state裡
         // if (key === 'nodes' || key === 'links') {
         //   for (let i = temp.length - 1; i >= 0; i--) {
         //     const existed = propsData.findIndex(t => temp[i].id === t.id) !== -1;
@@ -351,17 +349,5 @@ export default class D3Component {
         l.target = nodeMap[l.to] || {};
       });
     }
-  }
-
-  isSizeChange(width, height) {
-    return width !== this.getWidth() || height !== this.getHeight();
-  }
-
-  getWidth() {
-    return get(this.props, 'width');
-  }
-
-  getHeight() {
-    return get(this.props, 'height');
   }
 }

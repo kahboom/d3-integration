@@ -43,7 +43,6 @@ export default class RectScope extends Shape2D {
       }
     });
     // append collapse icon
-    // 收合group的按鈕
     if (data.toolbar && data.toolbar.indexOf('collapse') !== -1) {
       const drawType = 'group';
       const toolName = 'collapse';
@@ -120,7 +119,7 @@ export default class RectScope extends Shape2D {
         const innerGroupDeep = get(data, 'innerGroupDeep', 0);
         if (innerGroupDeep !== 0) {
           // multi-layer group
-          const catalyst = 2; // 值越大，其factor數值越小
+          const catalyst = 2;
           let factor = 7 - ((innerGroupDeep * catalyst) % 7);
           factor = factor > 1 ? factor : 1;
           return `#${factor}${factor}${factor}`;
@@ -234,7 +233,6 @@ export default class RectScope extends Shape2D {
     const innerGroupDeep = get(data, 'innerGroupDeep', 0);
     if (innerGroupDeep !== 0) {
       // multi layer group
-      // 若灰底範圍內的成員都是invisible，那灰底也要隱藏
       const memberNodes = get(groupNodeData, 'memberNodes', []);
       const memberAllInVisible = memberNodes.findIndex(node => node.visible !== false) === -1;
       visibility = memberAllInVisible ? 'hidden' : get(groupNodeData, 'isExpand') ? 'visible' : 'hidden';

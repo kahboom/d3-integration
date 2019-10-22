@@ -15,25 +15,6 @@ export default {
     }
     return result;
   },
-  getIntlMessageFromStatusValue: function(component, statusValue) {
-    if (statusValue) {
-      let statusArray = statusValue.split('_');
-      let status;
-      statusArray.forEach(function(item, i) {
-        if (i > 0) {
-          let temp = item.split('');
-          item = temp[0].toUpperCase() + temp.splice(1).join('');
-          status += item;
-        } else {
-          status = item;
-        }
-      });
-      if (status) {
-        return this.getIntlMessage(component, status);
-      }
-    }
-    return '---';
-  },
   unknown: {
     value: 'unknown',
     i18n: 'status.unknown.name'

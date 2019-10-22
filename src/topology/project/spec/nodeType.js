@@ -3,12 +3,9 @@
  *  - image
  *  - text
  ***/
-// const smIcon = 0.5;
 const mdIcon = 1;
-// const lgIcon = 1.5;
-// const smSize = 10;
 const mdSize = 30;
-// const lgSize = 50;
+
 export const nodeType = {
   default: {
     default: {
