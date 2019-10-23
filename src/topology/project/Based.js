@@ -28,9 +28,11 @@
  *
  */
 import DefaultDataProcessor from '../dataProcessor/DefaultDataProcessor';
+
 export default class Based {
   props;
   state;
+
   constructor(props) {
     console.log('project constructing...');
     this.props = props || {};
@@ -38,13 +40,16 @@ export default class Based {
     this.state = {};
     this.init();
   }
+
   init() {
     console.log('project initiating...');
   }
+
   getDataProcessor(props) {
     // do not store data processor instance in project
     return new DefaultDataProcessor(props);
   }
+
   initiated() {}
   dataPreprocessing() {}
   dataProcessed() {}

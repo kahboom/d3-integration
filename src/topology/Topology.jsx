@@ -4,10 +4,6 @@
  * @author Samuel Hsin
  * @since 2019/04/17
  *
- * @example <caption> Example </caption>
- * import Topology from '&/@chttl/topology/src/topology/Topology.react';
- * <Topology identifier="topology" mode="2d" projectName={'NetworkTemplate1'} data={{nodes: [], links: []}} width={300} height={300} enableGroup />
- *
  */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';

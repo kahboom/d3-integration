@@ -29,12 +29,14 @@ import assign from 'lodash/assign';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
 import cloneDeep from 'lodash/cloneDeep';
-// look up https://github.com/d3/d3/blob/master/index.js
+
 const d3 = Object.assign({}, require('d3-selection'), require('d3-zoom'));
+
 export default class D3Component {
   // data field
   props;
   state;
+
   constructor(containerEl, props) {
     this.props = props || {};
     // default value
@@ -47,6 +49,7 @@ export default class D3Component {
     };
     this.init(containerEl);
   }
+
   defaultProps(props) {
     const setting = (key, defaultValue) => {
       set(this.props, key, props[key] || defaultValue);
@@ -82,6 +85,7 @@ export default class D3Component {
       enableMinimap,
       minimapScale
     } = this.props;
+
     const state = this.state;
     const center = [width / 2, height / 2];
     const initPosition = center;
@@ -92,6 +96,7 @@ export default class D3Component {
     const selector = (state.selector = new Selector({ ...this.props, layout }));
     // init svg
     const svg = (state.svg = d3.select(containerEl).append('svg'));
+
     if (enableCanvasSelectEvent) {
       selector.bindEvent('canvas', svg, {
         selected: () => {
@@ -106,6 +111,7 @@ export default class D3Component {
     // init svg size
     const svgWidth = width;
     const svgHeight = height;
+
     if (enableViewbox) {
       // viewbox
       const viewBox = [0, 0, width, height].join(' ');
@@ -140,6 +146,7 @@ export default class D3Component {
       .style('transform-origin', '0 0')
       // init zoomer position
       .attr('transform', `translate(${initPosition[0]},${initPosition[1]}) scale(${layout.getZoomScale()})`);
+
     // init inner wrapper background
     innerWrapper
       .append('rect')
@@ -157,6 +164,7 @@ export default class D3Component {
       .classed(mainGroupStyleClass, true)
       .style('transform-origin', '0 0')
       .attr('transform', `translate(0,0) scale(${layout.getScale()})`);
+
     // init main group background
     mainGroup
       .append('rect')
@@ -236,12 +244,6 @@ export default class D3Component {
   initProject(projectPath, projectName, projectClass) {
     const ProjectClass = projectClass || require(`${projectPath}/${projectName}.js`).default;
     return new ProjectClass(this.props);
-  }
-
-  resetZoom() {
-    const { initZoomScale } = this.props;
-    const { layout } = this.state;
-    layout.changeCanvasZoom(d3.zoomIdentity.translate(0, 0).scale(initZoomScale));
   }
 
   updateState() {

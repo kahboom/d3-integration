@@ -40,12 +40,15 @@ import GroupNode from '../factory/data/GroupNode';
 import Circle from '../factory/shape/Circle';
 import PathLine from '../factory/shape/PathLine';
 import RectScope from '../factory/shape/RectScope';
+
 import get from 'lodash/get';
 import invoke from 'lodash/invoke';
 import { event as d3Event } from 'd3-selection';
+
 export default class NetworkTemplate1 extends Topology2D {
   dummyGroupLinks = [];
   dummyGroupNodes = [];
+
   init() {
     super.init();
     const { state, props } = this;
@@ -55,6 +58,7 @@ export default class NetworkTemplate1 extends Topology2D {
     const rectScope = new RectScope({ ...props, projectState });
     // setting state
     const { factory } = state;
+
     state.factory = { ...factory, circle, pathLine, rectScope };
   }
 

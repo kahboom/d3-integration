@@ -36,10 +36,13 @@ import GroupNode from '../factory/data/GroupNode';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import invoke from 'lodash/invoke';
+
 const d3 = Object.assign({}, require('d3-selection'));
+
 export default class DefaultDataProcessor {
   props;
   state;
+
   constructor(props) {
     console.log('initializing data processor...');
     this.props = props || {};

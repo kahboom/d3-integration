@@ -6,7 +6,9 @@ import PortLine from '../factory/shape/PortLine';
 import SubLine from '../factory/shape/SubLine';
 import get from 'lodash/get';
 import invoke from 'lodash/invoke';
+
 var d3 = Object.assign({}, require('d3-selection'));
+
 export default class VPC extends NetworkTemplate1 {
   init() {
     super.init();
@@ -16,18 +18,22 @@ export default class VPC extends NetworkTemplate1 {
     const namesPathLine = new NamesPathLine({ ...props, projectState });
     const portLine = new PortLine({ ...props, projectState });
     const subLine = new SubLine({ ...props, projectState });
+
     //setting state
     const { factory } = state;
     state.factory = { ...factory, device, namesPathLine, portLine, subLine };
   }
+
   layout(props) {
     return new SiteNetworkLayout({ ...props, type: 'custom', spec: this.state.spec, util: this.state.util, project: this });
   }
 
   dataPreprocessing(nodes, links) {
     super.dataPreprocessing(nodes, links);
+
     let nodesById = {},
       subData = {};
+
     if (nodes) {
       const setting = objs => {
         if (objs) {
@@ -41,6 +47,7 @@ export default class VPC extends NetworkTemplate1 {
         nodesById[n.id] = n;
       });
     }
+
     //link port target and source
     if (links) {
       links.forEach(link => {
@@ -57,6 +64,7 @@ export default class VPC extends NetworkTemplate1 {
       super.addNodeContent(newNodeDom, data);
     }
   }
+
   bindingNodeSelectEvent(nodeDom, selector) {
     super.bindingNodeSelectEvent(nodeDom, selector);
     //bind additional node select
@@ -71,19 +79,24 @@ export default class VPC extends NetworkTemplate1 {
       });
     });
   }
+
   updateNodeContent(nodeDom, data) {
     if (data.category) {
       super.updateNodeContent(nodeDom, data);
     }
   }
+
   addLinkContent(linkDom, data) {
     const { factory } = this.state;
     get(factory, 'namesPathLine').create(linkDom, data);
   }
 }
+
 class SiteNetworkLayout extends NestedGroupLayout {
+
   initNodePosition(existedPositions, node) {
     let position;
+
     if (node && node.category && (node.x === undefined || node.y === undefined)) {
       switch (node.category) {
         case 'aggregate':
@@ -104,6 +117,7 @@ class SiteNetworkLayout extends NestedGroupLayout {
     }
     return position;
   }
+
   tick(...args) {
     super.tick(...args);
     const type = get(args, [0, 'type']);

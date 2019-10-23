@@ -35,10 +35,12 @@ import get from 'lodash/get';
 import invoke from 'lodash/invoke';
 import { event as d3Event } from 'd3-selection';
 const d3 = Object.assign({}, require('d3-selection'), require('d3-drag'));
+
 export default class CustomLayout extends DefaultLayout {
   init() {
     super.init();
   }
+
   dragNode(dom) {
     const { scale } = this.state;
     const me = this;
@@ -55,6 +57,7 @@ export default class CustomLayout extends DefaultLayout {
       const dragPosition = { dragX: x, dragY: y };
       me.tempDragPosition = dragPosition;
     };
+
     const onDrag = data => {
       super.dragging();
       const draggable = get(data, 'draggable', true);
@@ -76,19 +79,23 @@ export default class CustomLayout extends DefaultLayout {
         me.tempDragPosition = dragPosition;
       }
     };
+
     const onEnd = () => {
       super.dragEnd();
       dom.classed('dragging', false);
       delete me.tempDragPosition;
     };
+
     return d3
       .drag()
       .on('start', onStart)
       .on('drag', onDrag)
       .on('end', onEnd);
   }
+
   dragGroup(dom) {
     const me = this;
+
     const onStart = data => {
       super.dragStart(dom, data);
       const { sourceEvent, x, y } = d3Event;
@@ -101,6 +108,7 @@ export default class CustomLayout extends DefaultLayout {
       const dragPosition = { dragX: x, dragY: y };
       me.tempDragPosition = dragPosition;
     };
+
     const onDrag = data => {
       super.dragging(dom, data);
       const { x, y } = d3Event;
@@ -111,17 +119,20 @@ export default class CustomLayout extends DefaultLayout {
 
       me.tempDragPosition = dragPosition;
     };
+
     const onEnd = data => {
       super.dragEnd(dom, data);
       dom.classed('dragging', false);
       delete me.tempDragPosition;
     };
+
     return d3
       .drag()
       .on('start', onStart)
       .on('drag', onDrag)
       .on('end', onEnd);
   }
+
   initNodePosition(existedPositions, node) {
     let position;
     if (node && node.category && (node.x === undefined || node.y === undefined)) {
@@ -132,10 +143,12 @@ export default class CustomLayout extends DefaultLayout {
     }
     return position;
   }
+
   nodes(nodes) {
     if (!nodes) {
       return;
     }
+
     // existed positions
     const positions = [];
     const { spec, util, initNodeAdditionalDistance } = this.props;
@@ -143,6 +156,7 @@ export default class CustomLayout extends DefaultLayout {
     const groupNodes = [];
     const nodesByGroupId = {};
     const nodesById = {};
+
     nodes.forEach(n => {
       nodesById[n.id] = n;
       if (n.groupIds) {
@@ -152,11 +166,13 @@ export default class CustomLayout extends DefaultLayout {
         });
       }
     });
+
     const storedPosition = n => {
       if (n.x !== undefined && n.y !== undefined) {
         positions.push({ x: n.x, y: n.y });
       }
     };
+
     // Positions
     nodes.forEach(n => {
       storedPosition(n);
@@ -194,14 +210,18 @@ export default class CustomLayout extends DefaultLayout {
         });
       }
     });
+
     return nodes;
   }
+
   links(links) {
     return links;
   }
+
   tick({ type, data = {}, moveDelta = { dx: 0, dy: 0 } }) {
     const { project } = this.props;
     const { mainGroup, factory } = project.state;
+
     if (type === 'link') {
       mainGroup.selectAll('g.link').each(function(d) {
         // eslint-disable-next-line no-invalid-this
@@ -217,6 +237,7 @@ export default class CustomLayout extends DefaultLayout {
       });
     } else if (type === 'group') {
       const isMember = data.groupable;
+
       if (isMember) {
         this.updateRectPositionByMemberPosition(data, moveDelta);
       } else {
@@ -264,7 +285,6 @@ export default class CustomLayout extends DefaultLayout {
       }
     }
   }
-
 
   getRectPositionByMember(rectPosition, member, index, configs) {
     rectPosition = rectPosition || { minX: 0, minY: 0, maxX: 0, maxY: 0 };
@@ -318,14 +338,16 @@ export default class CustomLayout extends DefaultLayout {
     }
     return result;
   }
-  moveGroupRectandMemberPosition(groupData, moveDelta) {
 
+  moveGroupRectandMemberPosition(groupData, moveDelta) {
     if (!groupData || !moveDelta) {
       return;
     }
+
     const { project } = this.props;
     const { mainGroup } = project.state;
     const groupRectDom = mainGroup.select(`#${groupData.d3Id}`);
+
     if (groupRectDom.node()) {
       const rectPosition = groupData.position;
 
@@ -334,9 +356,7 @@ export default class CustomLayout extends DefaultLayout {
       rectPosition.minY += moveDelta.dy;
       rectPosition.maxY += moveDelta.dy;
 
-
       project.updateGroupContent(groupRectDom, groupData);
-
 
       this.updateMemberNodesPosition(groupData, moveDelta);
 
@@ -375,8 +395,10 @@ export default class CustomLayout extends DefaultLayout {
     const groupDom = mainGroup.select(`#gnode-${groupData.nodeId}`);
     const rectPosition = groupData.position;
     const group = get(groupDom.data(), [0]);
+
     group.x = (rectPosition.minX + rectPosition.maxX) / 2;
     group.y = (rectPosition.minY + rectPosition.maxY) / 2;
+
     groupDom.attr('transform', `translate(${group.x}, ${group.y}) scale(${scale})`);
   }
 }

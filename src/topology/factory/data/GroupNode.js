@@ -15,15 +15,11 @@ export default {
     // cache data value
     const { spec } = cacheData;
     const nodeType = spec.getNodeType();
+
     nodes.forEach(function(node) {
       if (node) {
-        const category = node.category;
-        switch (category) {
-          default:
-            if (node.groupIds && node.groupIds.length > 0) {
-              me.dealWithGroupNodeInterator(cacheData, nodeType, nodes, links, node);
-            }
-            break;
+        if (node.groupIds && node.groupIds.length > 0) {
+          me.dealWithGroupNodeInterator(cacheData, nodeType, nodes, links, node);
         }
         // add node link connecting related node
         me.addVirtualLinkFromNode(cacheData, links, node.relatedNodes, node, false);
@@ -33,6 +29,7 @@ export default {
 
   findDataFromObject(obj, id) {
     let result;
+
     if (obj && id) {
       if (Array.isArray(obj)) {
         obj.some(temp => {
@@ -43,8 +40,10 @@ export default {
         });
       } else {
         const keys = Object.keys(obj);
+
         keys.some(key => {
           const temp = obj[key];
+
           if (id && temp.id === id) {
             result = temp;
             return true;
@@ -65,6 +64,7 @@ export default {
     const nodeExt = nodeType[category] ? nodeType[category].extensions || {} : {};
     const { createDummyGroupNodeIfNecessary, dummyGroupCategory, dummyGroupName, dummyGroupStatus } = nodeExt;
     const groupable = node.groupable;
+
     if (groupable) {
       if (node.groupIds) {
         let groupNode;
@@ -342,7 +342,7 @@ export default {
     const styles = {
       ...configs['groupStyles']
     };
-    // 新增group data
+
     return this.convexRectGroup(nodes, styles);
   },
 
