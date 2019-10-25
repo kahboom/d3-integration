@@ -28,8 +28,8 @@ export const nodeType = {
       width: mdSize,
       height: mdSize
     },
-    computer: {
-      type: 'computer',
+    container: {
+      type: 'container',
       iconType: 'text',
       icon: '\uf108', // computer
       iconScale: mdIcon,

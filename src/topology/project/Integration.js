@@ -18,9 +18,8 @@ export default class VPC extends NetworkTemplate1 {
     const namesPathLine = new NamesPathLine({ ...props, projectState });
     const portLine = new PortLine({ ...props, projectState });
     const subLine = new SubLine({ ...props, projectState });
-
-    //setting state
     const { factory } = state;
+
     state.factory = { ...factory, device, namesPathLine, portLine, subLine };
   }
 
@@ -105,20 +104,15 @@ class IntegrationLayout extends NestedGroupLayout {
 
     if (node && node.category && (node.x === undefined || node.y === undefined)) {
       switch (node.category) {
-        case 'aggregate':
-          position = this.getAvailablePosition(existedPositions, { x: 0, y: -50 }, { direction: 'hRight' });
+        case 'container':
+          position = this.getAvailablePosition(existedPositions, { x: 200, y: 75 }, { direction: 'hRight' });
           break;
-        case 'app':
-          position = this.getAvailablePosition(existedPositions, { x: 100, y: -160 }, { direction: 'hRight' });
-          break;
-        case 'instances':
-          position = this.getAvailablePosition(existedPositions, { x: 200, y: 50 }, { direction: 'hRight' });
-          break;
-        case 'step':
+        case 'example':
           position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
           break;
         default:
-          position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
+          position = this.getAvailablePosition(existedPositions, { x: 0, y: -50 }, { direction: 'hRight' });
+          //position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
       }
     }
     return position;

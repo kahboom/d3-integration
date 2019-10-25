@@ -33,15 +33,13 @@ import cloneDeep from 'lodash/cloneDeep';
 const d3 = Object.assign({}, require('d3-selection'), require('d3-zoom'));
 
 export default class D3Component {
-  // data field
   props;
   state;
 
   constructor(containerEl, props) {
     this.props = props || {};
-    // default value
     this.defaultProps(props);
-    // init state
+
     this.state = {
       defaultNodeZIndex: 7,
       defaultLinkZIndex: 5,
@@ -90,12 +88,24 @@ export default class D3Component {
     const state = this.state;
     const center = [width / 2, height / 2];
     const initPosition = center;
+
     // init project and layout
+    /**
+     * Initiate project & layout
+     */
     const project = (state.project = this.initProject(projectPath, projectName, projectClass));
     const { layout } = project.state;
-    // init selector
+
+    /**
+     * Initiate selector
+     * @type {Selector}
+     */
     const selector = (state.selector = new Selector({ ...this.props, layout }));
-    // init svg
+
+    /**
+     * Initiate SVG
+     * @type {Selection<BaseType, unknown, HTMLElement, any>}
+     */
     const svg = (state.svg = d3.select(containerEl).append('svg'));
 
     /**
@@ -112,7 +122,9 @@ export default class D3Component {
       });
     }
 
-    // init svg size
+    /**
+     * SVG size
+     */
     const svgWidth = width;
     const svgHeight = height;
 
@@ -128,7 +140,9 @@ export default class D3Component {
       svg.attr('width', svgWidth).attr('height', svgHeight);
     }
 
-    // svg id
+    /**
+     * SVG ID
+     */
     svg.attr('id', identifier);
 
     const outerWrapper = svg
@@ -136,7 +150,10 @@ export default class D3Component {
       .attr('class', 'wrapper outer')
       .attr('transform', 'translate(0, 0)');
 
-    // init background
+    /**
+     * Initiate background
+     * @type {string | this}
+     */
     state.background = outerWrapper
       .append('rect')
       .attr('class', 'background')
@@ -146,7 +163,11 @@ export default class D3Component {
       .attr('width', width)
       .attr('height', height);
 
-    // init zoomer, it's important to translate position into initPosition for node-link locations.
+    /**
+     * Initiate zoomer
+     * It's important to translate position into initPosition for node-link locations.
+     * @type {Selection<BaseType, Datum, PElement, PDatum>}
+     */
     const innerWrapper = svg
       .append('g')
       .attr('class', 'wrapper inner zoomer')
@@ -154,7 +175,9 @@ export default class D3Component {
       // init zoomer position
       .attr('transform', `translate(${initPosition[0]},${initPosition[1]}) scale(${layout.getZoomScale()})`);
 
-    // init inner wrapper background
+    /**
+     * Initiate inner wrapper background
+     */
     innerWrapper
       .append('rect')
       .attr('class', 'background')
@@ -165,14 +188,19 @@ export default class D3Component {
       .attr('width', width)
       .attr('height', height);
 
-    // init main group
+    /**
+     * Initiate main group
+     * @type {Selection<BaseType, Datum, PElement, PDatum>}
+     */
     const mainGroup = innerWrapper
       .append('g')
       .classed(mainGroupStyleClass, true)
       .style('transform-origin', '0 0')
       .attr('transform', `translate(0,0) scale(${layout.getScale()})`);
 
-    // init main group background
+    /**
+     * Initiate main group background
+     */
     mainGroup
       .append('rect')
       .attr('class', 'background')
@@ -183,7 +211,10 @@ export default class D3Component {
       .attr('width', width)
       .attr('height', height);
 
-    // init minimap
+    /**
+     * Initiate Minimap
+     * @type {Minimap}
+     */
     const minimap = (state.minimap = new Minimap({
       enableMinimap,
       base: svg,
@@ -201,7 +232,9 @@ export default class D3Component {
       height
     }));
 
-    // init zoom event
+    /**
+     * Initiate zoom event
+     */
     const zoom = layout.initZoom(innerWrapper, [mainGroup], minimap, [width, height]);
 
     innerWrapper.call(zoom);
@@ -218,7 +251,9 @@ export default class D3Component {
 
     state.mainGroup = mainGroup;
 
-    // init custom event
+    /**
+     * Initiate custom event
+     */
     svg.node().addEventListener(
       'updateTopology',
       () => {
@@ -234,7 +269,9 @@ export default class D3Component {
       true
     );
 
-    // init minimap
+    /**
+     * Initiate Minimap
+     */
     if (enableMinimap) {
       // init clip-path
       innerWrapper.attr('clip-path', 'url(#wrapperClipPath_forMinimap)');
@@ -242,8 +279,10 @@ export default class D3Component {
       minimap.render();
     }
 
-    // init data processor
-    // data processor instance is not stored in project instance
+    /**
+     * Initiate Data processor
+     * Data processor instance is not stored in project instance.
+     */
     this.state.dataprocessor = invoke(project, 'getDataProcessor', { ...this.props, project, mainGroup, selector });
 
     invoke(project, 'initiated');

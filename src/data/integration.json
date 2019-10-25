@@ -26,7 +26,7 @@
     {
       "id": "5",
       "name": "Database 2",
-      "category": "endpoint",
+      "category": "container",
       "status": "unpublished",
       "views": ["setting"],
       "isGroup": true,
@@ -37,7 +37,7 @@
     {
       "id": "6",
       "name": "Another Log",
-      "category": "mapper",
+      "category": "example",
       "status": "update",
       "views": ["lock", "setting"],
       "groupIds": ["5"],
@@ -50,7 +50,7 @@
     {
       "id": "7",
       "name": "Something",
-      "category": "mapper",
+      "category": "example",
       "status": "pending",
       "views": ["lock"],
       "groupIds": ["5"],
@@ -59,14 +59,14 @@
     {
       "id": "9",
       "name": "Instance",
-      "category": "fire",
+      "category": "endpoint",
       "status": "pending",
       "views": ["number", "colorTag-01"]
     },
     {
       "id": "11",
       "name": "My SQL",
-      "category": "app",
+      "category": "example",
       "status": "published",
       "views": ["lock"],
       "groupIds": ["6"],
@@ -75,7 +75,7 @@
     {
       "id": "12",
       "name": "Tomcat",
-      "category": "app",
+      "category": "example",
       "status": "published",
       "views": ["lock"],
       "groupIds": ["6"],
