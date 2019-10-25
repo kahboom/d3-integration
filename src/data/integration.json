@@ -3,19 +3,19 @@
     {
       "id": "1",
       "name": "Database",
-      "category": "step",
+      "category": "endpoint",
       "status": "published"
     },
     {
       "id": "2",
       "name": "Split",
-      "category": "step",
+      "category": "split",
       "status": "published"
     },
     {
       "id": "3",
       "name": "Data Mapper",
-      "category": "step",
+      "category": "mapper",
       "status": "error",
       "views": ["number"],
       "isGroup": true,
@@ -26,7 +26,7 @@
     {
       "id": "5",
       "name": "Database 2",
-      "category": "source",
+      "category": "endpoint",
       "status": "unpublished",
       "views": ["setting"],
       "isGroup": true,
@@ -37,7 +37,7 @@
     {
       "id": "6",
       "name": "Another Log",
-      "category": "mapping",
+      "category": "mapper",
       "status": "update",
       "views": ["lock", "setting"],
       "groupIds": ["5"],
@@ -50,7 +50,7 @@
     {
       "id": "7",
       "name": "Something",
-      "category": "mapping",
+      "category": "mapper",
       "status": "pending",
       "views": ["lock"],
       "groupIds": ["5"],
@@ -59,7 +59,7 @@
     {
       "id": "9",
       "name": "Instance",
-      "category": "step",
+      "category": "fire",
       "status": "pending",
       "views": ["number", "colorTag-01"]
     },
@@ -84,7 +84,7 @@
     {
       "id": "13",
       "name": "Log",
-      "category": "step",
+      "category": "log",
       "status": "deleting"
     }
   ],

@@ -31,7 +31,7 @@ Topology.defaultProps = {
   identifier: 'unknown',
   mode: '2d',
   projectPath: './project',
-  projectName: 'Force',
+  projectName: 'Integration',
   projectClass: undefined,
   data: undefined,
   width: 300,

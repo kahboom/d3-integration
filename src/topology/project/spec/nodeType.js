@@ -28,8 +28,8 @@ export const nodeType = {
       width: mdSize,
       height: mdSize
     },
-    instances: {
-      type: 'instances',
+    computer: {
+      type: 'computer',
       iconType: 'text',
       icon: '\uf108', // computer
       iconScale: mdIcon,
@@ -37,19 +37,37 @@ export const nodeType = {
       width: mdSize,
       height: mdSize
     },
-    firewall: {
-      type: 'firewall',
+    split: {
+      type: 'split',
       iconType: 'text',
-      icon: '\uf06d', // fire
+      icon: '\uf0e8',
       iconScale: mdIcon,
       fontSize: '25px',
       width: mdSize,
       height: mdSize
     },
-    vnfGroup: {
-      type: 'vnfGroup',
+    mapper: {
+      type: 'mapper',
       iconType: 'text',
-      icon: '\uf1b3', // cubes
+      icon: '\uf044',
+      iconScale: mdIcon,
+      fontSize: '25px',
+      width: mdSize,
+      height: mdSize
+    },
+    log: {
+      type: 'log',
+      iconType: 'text',
+      icon: '\uf15b',
+      iconScale: mdIcon,
+      fontSize: '25px',
+      width: mdSize,
+      height: mdSize
+    },
+    endpoint: {
+      type: 'endpoint',
+      iconType: 'text',
+      icon: '\uf1c0', // database
       iconScale: mdIcon,
       fontSize: '25px',
       width: mdSize,

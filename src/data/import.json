@@ -1,8 +1,8 @@
 {
   "id": "i-LqgWwikkSRnC8QArBTCz",
-  "version": 1,
+  "version": 2,
   "createdAt": 1571645862083,
-  "updatedAt": 1571645862005,
+  "updatedAt": 1572013504721,
   "tags": [
     "sql"
   ],
@@ -18,8 +18,8 @@
           "id": "-LqgWjzBy2pYzAJ2kA3P",
           "configuredProperties": {
             "isRaiseErrorOnNotFound": "false",
-            "query": "select * from todo",
-            "schedulerExpression": "60000"
+            "schedulerExpression": "60000",
+            "query": "select * from todo"
           },
           "metadata": {
             "configured": "true"
@@ -107,14 +107,14 @@
             ],
             "name": "PostgresDB",
             "configuredProperties": {
-              "password": "»ENC:924955db38a8c7b59fdeacc49e02ec438b4e07d925dd25bca9ce6a2a9eb3dcb1d77f9cfa92aef9fceff43b33aebc3757",
+              "password": "»ENC:fd335715bd2b7e7aa0a5051eb7909cd1160f0cdbff8bb70046b7c5e9670d6132ef0831279d03c83d67711562a2673070",
               "schema": "sampledb",
               "url": "jdbc:postgresql://syndesis-db:5432/sampledb",
               "user": "sampledb"
             },
             "connector": {
               "id": "sql",
-              "version": 11,
+              "version": 13,
               "actions": [
                 {
                   "id": "sql-connector",
@@ -537,6 +537,18 @@
           "name": "Data Mapper"
         },
         {
+          "id": "-Ls2IaPE3fXgwx-wUYeP",
+          "configuredProperties": {
+            "contextLoggingEnabled": "false",
+            "bodyLoggingEnabled": "false"
+          },
+          "metadata": {
+            "configured": "true"
+          },
+          "stepKind": "log",
+          "name": "Log"
+        },
+        {
           "id": "-LqgWnTSy2pYzAJ2kA3P",
           "configuredProperties": {
             "procedureName": "add_lead"
@@ -621,14 +633,14 @@
             ],
             "name": "PostgresDB",
             "configuredProperties": {
-              "password": "»ENC:924955db38a8c7b59fdeacc49e02ec438b4e07d925dd25bca9ce6a2a9eb3dcb1d77f9cfa92aef9fceff43b33aebc3757",
+              "password": "»ENC:fd335715bd2b7e7aa0a5051eb7909cd1160f0cdbff8bb70046b7c5e9670d6132ef0831279d03c83d67711562a2673070",
               "schema": "sampledb",
               "url": "jdbc:postgresql://syndesis-db:5432/sampledb",
               "user": "sampledb"
             },
             "connector": {
               "id": "sql",
-              "version": 11,
+              "version": 13,
               "actions": [
                 {
                   "id": "sql-connector",
@@ -989,12 +1001,24 @@
     }
   ],
   "currentState": "Unpublished",
-  "targetState": "Unpublished",
+  "targetState": "Published",
+  "deployments": [
+    {
+      "id": "i-LqgWwikkSRnC8QArBTCz:1",
+      "version": 1,
+      "createdAt": 1572013505194,
+      "updatedAt": 1572013505592,
+      "userId": "kahboom",
+      "currentState": "Unpublished",
+      "targetState": "Published",
+      "statusMessage": "User has currently 1 deployments, while the maximum allowed number is 1."
+    }
+  ],
   "board": {
     "id": "i-LrhOA3YOE4yAgQlQ2Guz",
     "metadata": {
       "integration-id": "i-LqgWwikkSRnC8QArBTCz",
-      "integration-version": "1"
+      "integration-version": "2"
     },
     "messages": [
       {
@@ -1002,33 +1026,15 @@
           "flow": "-LqgWf2fy2pYzAJ2kA3P",
           "step": "-LqgWjzBy2pYzAJ2kA3P"
         },
-        "level": "WARN",
-        "code": "SYNDESIS011",
-        "detail": "Reason: 'property-defn-steps' is different\n\t=> '[ActionDescript ... batch=ConfigurationProperty{tags=[], order=2, defaultValue=false, depr ...'\n\t=> '[ActionDescript ... query=ConfigurationProperty{tags=[], order=1, deprecated=false, displa ...'\nContext: Connection('PostgresDB') / Connector('Database') / ConnectorAction('Invoke SQL') / ConnectorDescriptor('null-Descriptor')\n"
-      },
-      {
-        "metadata": {
-          "flow": "-LqgWf2fy2pYzAJ2kA3P",
-          "step": "-LqgWjzBy2pYzAJ2kA3P"
-        },
         "level": "INFO",
         "code": "SYNDESIS001"
-      },
-      {
-        "metadata": {
-          "flow": "-LqgWf2fy2pYzAJ2kA3P",
-          "step": "-LqgWnTSy2pYzAJ2kA3P"
-        },
-        "level": "WARN",
-        "code": "SYNDESIS011",
-        "detail": "Reason: 'property-defn-steps' is different\n\t=> '[ActionDescript ... batch=ConfigurationProperty{tags=[], order=2, defaultValue=false, depr ...'\n\t=> '[ActionDescript ... query=ConfigurationProperty{tags=[], order=1, deprecated=false, displa ...'\nContext: Connection('PostgresDB') / Connector('Database') / ConnectorAction('Invoke SQL') / ConnectorDescriptor('null-Descriptor')\n"
       }
     ],
     "createdAt": 1571645862179,
-    "updatedAt": 1571674252707,
+    "updatedAt": 1572013505007,
     "targetResourceId": "i-LqgWwikkSRnC8QArBTCz",
     "notices": 1,
-    "warnings": 2,
+    "warnings": 0,
     "errors": 0
   },
   "isDraft": true
