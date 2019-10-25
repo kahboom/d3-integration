@@ -3,78 +3,20 @@
     {
       "id": "1",
       "name": "Database",
-      "category": "vpc",
-      "status": "running",
-      "views": ["outline"],
-      "viewsProperties": {
-        "outlineTitle": "VPCs"
-      }
+      "category": "step",
+      "status": "published"
     },
     {
       "id": "2",
       "name": "Split",
-      "category": "vpc",
-      "status": "enable",
-      "role": "Leaf",
-      "ports": [
-        {
-          "id": "s2-p1",
-          "category": "switchPort",
-          "portIndex": 1,
-          "role": "commonPort",
-          "status": "up",
-          "parentId": "2",
-          "connectedCategory": "physicalSwitch",
-          "connectedRole": "Spine",
-          "connectedId": "1",
-          "connectedFaceId": "s1-p1"
-        },
-        {
-          "id": "s2-p2",
-          "category": "switchPort",
-          "portIndex": 2,
-          "role": "commonPort",
-          "status": "up",
-          "parentId": "2",
-          "connectedCategory": "physicalSwitch",
-          "connectedRole": "Spine",
-          "connectedId": "1",
-          "connectedFaceId": "s1-p2"
-        },
-        {
-          "id": "s2-p3",
-          "category": "switchPort",
-          "portIndex": 3,
-          "role": "commonPort",
-          "status": "down",
-          "parentId": "2"
-        },
-        {
-          "id": "s2-p4",
-          "category": "switchPort",
-          "portIndex": 4,
-          "role": "commonPort",
-          "status": "up",
-          "parentId": "2",
-          "connectedCategory": "host",
-          "connectedId": "4",
-          "connectedFaceId": "h1-1"
-        },
-        {
-          "id": "s2-p5",
-          "category": "switchPort",
-          "portIndex": 5,
-          "role": "commonPort",
-          "status": "down",
-          "parentId": "2"
-        }
-      ]
+      "category": "step",
+      "status": "published"
     },
     {
       "id": "3",
       "name": "Data Mapper",
-      "category": "aggregate",
-      "status": "running",
+      "category": "step",
+      "status": "error",
       "views": ["number"],
       "isGroup": true,
       "isExpand": true,
@@ -83,9 +25,10 @@
     },
     {
       "id": "5",
-      "name": "Database",
-      "category": "vnfGroup",
-      "status": "running",
+      "name": "Database 2",
+      "category": "source",
+      "status": "unpublished",
+      "views": ["setting"],
       "isGroup": true,
       "isExpand": false,
       "expandable": true,
@@ -93,9 +36,9 @@
     },
     {
       "id": "6",
-      "name": "Firewall",
-      "category": "firewall",
-      "status": "running",
+      "name": "Another Log",
+      "category": "mapping",
+      "status": "update",
       "views": ["lock", "setting"],
       "groupIds": ["5"],
       "groupable": true,
@@ -106,32 +49,25 @@
     },
     {
       "id": "7",
-      "name": "SLB",
-      "category": "slb",
-      "status": "provision",
+      "name": "Something",
+      "category": "mapping",
+      "status": "pending",
       "views": ["lock"],
       "groupIds": ["5"],
       "groupable": true
     },
     {
-      "id": "8",
-      "name": "Instance",
-      "category": "instances",
-      "status": "provision",
-      "views": ["number"]
-    },
-    {
       "id": "9",
       "name": "Instance",
-      "category": "instances",
-      "status": "provision",
+      "category": "step",
+      "status": "pending",
       "views": ["number", "colorTag-01"]
     },
     {
       "id": "11",
       "name": "My SQL",
       "category": "app",
-      "status": "provision",
+      "status": "published",
       "views": ["lock"],
       "groupIds": ["6"],
       "groupable": true
@@ -140,10 +76,16 @@
       "id": "12",
       "name": "Tomcat",
       "category": "app",
-      "status": "running",
+      "status": "published",
       "views": ["lock"],
       "groupIds": ["6"],
       "groupable": true
+    },
+    {
+      "id": "13",
+      "name": "Log",
+      "category": "step",
+      "status": "deleting"
     }
   ],
   "links": [
@@ -155,11 +97,15 @@
     },
     { "id": "l2", "from": "2", "to": "3" },
     { "id": "l3", "from": "3", "to": "5" },
+    {
+      "id": "l4", "from": "9", "to": "13"
+    },
+    {
+      "id": "l5", "from": "6", "to": "7"
+    },
     { "id": "l6", "from": "3", "to": "7" },
-    { "id": "l7", "from": "5", "to": "8" },
-    { "id": "l8", "from": "7", "to": "8" },
     { "id": "l9", "from": "3", "to": "9" },
-    { "id": "20", "from": "1", "to": "2" },
+    { "id": "l20", "from": "1", "to": "2" },
     { "id": "l10", "from": "3", "to": "9" }
   ]
 }

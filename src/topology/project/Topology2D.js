@@ -8,29 +8,6 @@
  * import Topology from '&/@chttl/topology/src/topology/D3Component';
  * import Topology2D from '&/@chttl/topology/src/topology/project/Topology2D';
  *
- * // ./customTopology/projectFolder/TestProject.js
- * export default class TestProject extends Topology2D {
- *  // override function
- *  // available overrided stubs
- *  beforeProcessNodes() {}
- *  startProcessNodes() {}
- *  addNodeContent() {}
- *  bindingNodeSelectEvent() {}
- *  updateNodeContent() {}
- *  removeNode() {}
- *  beforeProcessLinks() {}
- *  startProcessLinks() {}
- *  addLinkContent() {}
- *  bindingLinkSelectEvent() {}
- *  updateLinkContent() {}
- *  removeLink() {}
- *  beforeProcessGroups() {}
- *  startProcessGroups() {}
- *  addGroupContent() {}
- *  updateGroupContent() {}
- *  removeGroup() {}
- * }
- *
  * <Topology identifier="topology" mode="2d" projectPath={'./customTopology/projectFolder'} projectName={'TestProject'}
  *  data={{nodes: [], links: []}} width={300} height={300} enableGroup />
  *
@@ -66,6 +43,7 @@ export default class Topology2D extends Based {
     const toolbarSpec = this.initSpec(this.getSpecByProject({ toolbar }).toolbar, this.getSpecByProject({ toolbar: toolbarPrototype }).toolbar);
     const animation = new DefaultAnimation(this.props);
     const helper = setupSpec({ identifier, projectName, configs: configsSpec, nodeTypeSpec, linkTypeSpec, statusSpec, viewSpec, toolbarSpec });
+
     // setting state
     this.state.spec = helper;
     this.state.util = d3TopoUtil;

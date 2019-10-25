@@ -30,12 +30,10 @@ export const status = {
   },
   Integration: {
     node: {
-      running: {
-        // color: 'rgb(9, 205, 76)'
-        //color: '#0A0'
+      published: {
         color: '#0088ce'
       },
-      provision: {
+      pending: {
         animate: {
           flicker: true,
           flickerTargetClass: 'node-icon',
@@ -54,30 +52,13 @@ export const status = {
         backgroundColor: 'rgb(239, 239, 239)'
       },
       active: {
-        // color: 'rgb(9, 205, 76)'
         color: '#0A0'
       },
-      inactive: {
-        color: 'grey'
-      },
-      building: {
-        color: 'grey'
-      },
-      empty: {
-        color: 'grey',
+      unpublished: {
+        color: '#ccc',
         backgroundColor: 'rgb(239, 239, 239)'
       },
-      stopped: {
-        color: 'grey',
-        backgroundColor: 'rgb(239, 239, 239)'
-      },
-      up: {
-        color: '#00659c'
-      },
-      down: {
-        color: 'grey'
-      },
-      broken: {
+      error: {
         color: '#e76049'
       },
       deleting: {
@@ -85,18 +66,12 @@ export const status = {
           flicker: true,
           flickerTargetClass: 'node-icon'
         },
-        color: 'rgb(231, 96, 73)',
+        color: '#0088ce',
         backgroundColor: 'rgb(239, 239, 239)'
       },
       update: {
         color: '#ccc',
         backgroundColor: 'rgb(239, 239, 239)'
-      },
-      enable: {
-        color: '#00659c'
-      },
-      disable: {
-        color: 'grey'
       }
     },
     link: {

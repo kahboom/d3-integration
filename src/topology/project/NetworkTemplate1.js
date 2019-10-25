@@ -4,35 +4,6 @@
  * @author Samuel Hsin
  * @since 2019/04/17
  *
- * @example <caption> Example </caption>s
- * import Topology from '&/@chttl/topology/src/topology/Topology.react';
- * import NetworkTemplate1 from '&/@chttl/topology/src/topology/project/NetworkTemplate1';
- *
- * // ./customTopology/projectFolder/TestProject.js
- * export default class TestProject extends NetworkTemplate1 {
- *  // available overrided stubs
- *  beforeProcessNodes() {}
- *  startProcessNodes() {}
- *  addNodeContent() {}
- *  bindingNodeSelectEvent() {}
- *  updateNodeContent() {}
- *  removeNode() {}
- *  beforeProcessLinks() {}
- *  startProcessLinks() {}
- *  addLinkContent() {}
- *  bindingLinkSelectEvent() {}
- *  updateLinkContent() {}
- *  removeLink() {}
- *  beforeProcessGroups() {}
- *  startProcessGroups() {}
- *  addGroupContent() {}
- *  updateGroupContent() {}
- *  removeGroup() {}
- * }
- *
- * <Topology identifier="topology" mode="2d" projectPath={'./customTopology/projectFolder'} projectName={'TestProject'}
- *  data={{nodes: [], links: []}} width={300} height={300} enableGroup />
- *
  */
 import Topology2D from './Topology2D';
 import CustomLayout from '../layout/CustomLayout';

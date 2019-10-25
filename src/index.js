@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Topology from './topology/Topology';
-import integrationJson from './data/siteNetwork.json';
-//import integrationJson from './data/integration.json';
+import integrationJson from './data/integration.json';
 
 import './styles.css';
 
@@ -11,9 +10,7 @@ function App() {
   const [height, setHeight] = useState(window.innerHeight - 20 || 0);
   const [data, setData] = useState(undefined);
   const projectName = 'Integration';
-  //const projectName = 'SiteNetwork';
 
-  //dynamic change data
   useEffect(() => {
     let temp = data;
     if (projectName === 'Integration') {

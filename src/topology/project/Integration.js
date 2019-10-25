@@ -67,7 +67,7 @@ export default class VPC extends NetworkTemplate1 {
 
   bindingNodeSelectEvent(nodeDom, selector) {
     super.bindingNodeSelectEvent(nodeDom, selector);
-    //bind additional node select
+    // Bind additional node select
     nodeDom.selectAll('g.node > circle.objInterface').each(function() {
       selector.bindEvent('objInterface', d3.select(this), {
         selected: () => {
@@ -94,6 +94,12 @@ export default class VPC extends NetworkTemplate1 {
 
 class IntegrationLayout extends NestedGroupLayout {
 
+  /**
+   * Calculate Node positions based on their respective Category
+   * @param existedPositions
+   * @param node
+   * @return {{x: *, y: *}}
+   */
   initNodePosition(existedPositions, node) {
     let position;
 

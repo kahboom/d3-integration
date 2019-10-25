@@ -1,6 +1,7 @@
 /**
  * @description
  * D3 SVG DOM，Topology.react.js dispatch
+ * Primarily used for initialization (e.g. Selector, SVG, project, layout).
  *
  * @class D3Component
  * @param {object} props - ex. {identifier, projectName, data, width, height, projectPath...}.
@@ -68,6 +69,7 @@ export default class D3Component {
     setting('enableMinimap', true);
     setting('minimapScale', 0.2);
   }
+
   init(containerEl) {
     const {
       identifier,
@@ -96,6 +98,9 @@ export default class D3Component {
     // init svg
     const svg = (state.svg = d3.select(containerEl).append('svg'));
 
+    /**
+     * Canvas selected/unselected
+     */
     if (enableCanvasSelectEvent) {
       selector.bindEvent('canvas', svg, {
         selected: () => {
@@ -111,6 +116,9 @@ export default class D3Component {
     const svgWidth = width;
     const svgHeight = height;
 
+    /**
+     * Viewbox & viewport adjustment
+     */
     if (enableViewbox) {
       // viewbox
       const viewBox = [0, 0, width, height].join(' ');
@@ -207,6 +215,7 @@ export default class D3Component {
     for (let i = 0; i <= 10; i++) {
       mainGroup.append('svg:desc').attr('class', `zIndex-${i}-stratum`);
     }
+
     state.mainGroup = mainGroup;
 
     // init custom event
@@ -234,7 +243,7 @@ export default class D3Component {
     }
 
     // init data processor
-    // data processor instance does not stored in project instance
+    // data processor instance is not stored in project instance
     this.state.dataprocessor = invoke(project, 'getDataProcessor', { ...this.props, project, mainGroup, selector });
 
     invoke(project, 'initiated');
@@ -251,9 +260,11 @@ export default class D3Component {
     const { data } = this.props;
     const state = this.state;
     const nodesStickyValues = ['isExpand'];
+
     // update nodes and links state
     set(state, 'nodes', this.updateStateFromProps('nodes', state.nodes, get(data, 'nodes'), nodesStickyValues));
     set(state, 'links', this.updateStateFromProps('links', state.links, get(data, 'links')));
+
     // link from & to into source & target
     this.linkSourceAndTarget(state.nodes, state.links);
   }
@@ -261,10 +272,14 @@ export default class D3Component {
   update(newProps) {
     console.log('updating topology...');
     const { background } = this.state;
+
     // merge properties(keep default value)
     assign(this.props, newProps);
+
     const { backgroundColor, enableMinimap } = this.props;
+
     this.updateState();
+
     const { nodes, links, minimap, dataprocessor } = this.state;
 
     // update background
@@ -287,6 +302,7 @@ export default class D3Component {
   quit() {
     const { svg, project } = this.state;
     invoke(project, 'quit');
+
     // remove custom event
     svg.node().removeEventListener('updateTopology');
     svg.node().removeEventListener('unselectAll');
@@ -295,6 +311,7 @@ export default class D3Component {
   resize(width, height) {
     const { svg } = this.state;
     console.log('resizing topology...');
+
     // setting size
     this.props.width = width;
     this.props.height = height;
@@ -322,15 +339,7 @@ export default class D3Component {
             temp.push(cloneDeep(p));
           }
         });
-        // --->remove from props
-        // if (key === 'nodes' || key === 'links') {
-        //   for (let i = temp.length - 1; i >= 0; i--) {
-        //     const existed = propsData.findIndex(t => temp[i].id === t.id) !== -1;
-        //     if (!existed) {
-        //       temp.splice(i, 1);
-        //     }
-        //   }
-        // }
+
         stateData = temp;
       }
     }
@@ -338,8 +347,8 @@ export default class D3Component {
   }
 
   linkSourceAndTarget(nodes, links) {
-    // const { project } = this.state;
     const nodeMap = {};
+
     if (nodes) {
       nodes.forEach(n => {
         if (n && n.id) {
@@ -347,6 +356,7 @@ export default class D3Component {
         }
       });
     }
+
     if (links) {
       links.forEach(l => {
         l.source = nodeMap[l.from] || {};
