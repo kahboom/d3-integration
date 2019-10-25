@@ -4,7 +4,7 @@ export const toolbar = {
     group: {},
     link: {}
   },
-  SiteNetwork: {
+  Integration: {
     node: {
       expand: {
         visible: true,

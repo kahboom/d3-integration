@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "src/index.tsx",
+  "main": "src/index.js",
   "dependencies": {
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",

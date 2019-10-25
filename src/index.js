@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Topology from './topology/Topology';
-import integrationJson from './data/integration.json';
-import siteNetworkJson from './data/siteNetwork.json';
+import integrationJson from './data/siteNetwork.json';
+//import integrationJson from './data/integration.json';
 
 import './styles.css';
 
@@ -10,29 +10,18 @@ function App() {
   const [width, setWidth] = useState(window.innerWidth - 20 || 0);
   const [height, setHeight] = useState(window.innerHeight - 20 || 0);
   const [data, setData] = useState(undefined);
-  //const projectName = 'Integration';
-  const projectName = 'SiteNetwork';
+  const projectName = 'Integration';
+  //const projectName = 'SiteNetwork';
 
   //dynamic change data
   useEffect(() => {
     let temp = data;
-    if (projectName === 'SiteNetwork') {
-      temp = siteNetworkJson;
+    if (projectName === 'Integration') {
+      temp = integrationJson;
       setData(temp);
-    } else if (projectName === 'Integration') {
-      if (!temp) {
-        temp = integrationJson;
-        setData(temp);
-      } else if (temp.nodes[1].ports[4].status !== 'up') {
-        const newData = { nodes: temp.nodes, links: temp.links };
-        newData.nodes[1].ports[4].status = 'up';
-        newData.nodes[3].status = 'running';
-        newData.nodes[7].status = 'running';
-        delete newData.nodes[9];
-        setTimeout(() => {
-          setData(newData);
-        }, 5000);
-      }
+    } else {
+      temp = integrationJson;
+      setData(temp);
     }
   }, [data]);
 

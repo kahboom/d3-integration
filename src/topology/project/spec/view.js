@@ -3,7 +3,7 @@ export const view = {
     node: {},
     link: {}
   },
-  SiteNetwork: {
+  Integration: {
     node: {
       lock: {
         lockEnabled: true,

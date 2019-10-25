@@ -25,7 +25,7 @@ export default class VPC extends NetworkTemplate1 {
   }
 
   layout(props) {
-    return new SiteNetworkLayout({ ...props, type: 'custom', spec: this.state.spec, util: this.state.util, project: this });
+    return new IntegrationLayout({ ...props, type: 'custom', spec: this.state.spec, util: this.state.util, project: this });
   }
 
   dataPreprocessing(nodes, links) {
@@ -92,7 +92,7 @@ export default class VPC extends NetworkTemplate1 {
   }
 }
 
-class SiteNetworkLayout extends NestedGroupLayout {
+class IntegrationLayout extends NestedGroupLayout {
 
   initNodePosition(existedPositions, node) {
     let position;

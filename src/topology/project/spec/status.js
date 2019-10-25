@@ -28,7 +28,7 @@ export const status = {
       }
     }
   },
-  SiteNetwork: {
+  Integration: {
     node: {
       running: {
         // color: 'rgb(9, 205, 76)'
