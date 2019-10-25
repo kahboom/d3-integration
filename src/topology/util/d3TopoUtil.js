@@ -76,10 +76,6 @@ const d3TopoUtil = {
     return result;
   },
 
-  isDomExist(d3Dom) {
-    return !d3Dom || !d3Dom.node();
-  },
-
   diff: function(a, b) {
     return Math.abs(a - b);
   },
@@ -215,6 +211,7 @@ const d3TopoUtil = {
     }
     return result;
   },
+
   getNormPosition(data, bias) {
     const norm = this.getNorm(data.source, data.target);
     const sourceX = data.source.x + bias.source.x * norm.x;
@@ -223,6 +220,7 @@ const d3TopoUtil = {
     const targetY = data.target.y + bias.target.y * norm.y;
     return { source: { x: sourceX, y: sourceY }, target: { x: targetX, y: targetY } };
   },
+
   getNorm(source, target) {
     // 參考http://bl.ocks.org/rkirsling/5001347
     if (source !== undefined && target !== undefined) {
@@ -236,6 +234,7 @@ const d3TopoUtil = {
       return { x: 1, y: 1 };
     }
   },
+
   genLine(bias) {
     return d3
       .line()
@@ -264,6 +263,7 @@ const d3TopoUtil = {
         return d && this.isNumber(d.y) ? d.y + b * norm.y : b * norm.y || 0;
       });
   },
+
   getTranslateFromTransform(string) {
     const position = typeof string === 'string' ? string.indexOf('translate(') + 10 : -1;
     return position > -1
@@ -273,13 +273,16 @@ const d3TopoUtil = {
           .map(t => Number(t))
       : [0, 0];
   },
+
   getScaleFromTransform(string) {
     const transform = string ? parseSvgTransform(string) : {};
     return get(transform, 'scale.sx', 1);
   },
+
   getParsedSvgTransform(string) {
     return string ? parseSvgTransform(string) : {};
   },
+
   getComponentCenterPosition(dom, parentDom) {
     const position = { x: 0, y: 0 };
     const domElement = dom.node();
@@ -295,10 +298,12 @@ const d3TopoUtil = {
     }
     return position;
   },
+
   getAngleOfRightTriangle(hypotenuse, opposite) {
     const sinOfAngleX = opposite / hypotenuse; // 0.5
     return (Math.asin(sinOfAngleX) * 180) / Math.PI;
   },
+
   moveZIndex(zIndex, dom) {
     if (zIndex !== undefined) {
       // rearrange z-index
@@ -310,6 +315,7 @@ const d3TopoUtil = {
       }
     }
   },
+
   distanceNodePosition({ node, additionalDistance, isExpand, incremental = 'v' }) {
     let result = false;
 
@@ -348,6 +354,7 @@ const d3TopoUtil = {
       node.y = newY;
       result = true;
     }
+
     return result;
   }
 };

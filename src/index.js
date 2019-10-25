@@ -40,7 +40,7 @@ function App() {
     let resizeTimer;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function() {
+      resizeTimer = setTimeout(() => {
         setWidth(window.innerWidth - 20 || 0);
         setHeight(window.innerHeight - 20 || 0);
       }, 300);

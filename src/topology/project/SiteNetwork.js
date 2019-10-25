@@ -7,7 +7,7 @@ import SubLine from '../factory/shape/SubLine';
 import get from 'lodash/get';
 import invoke from 'lodash/invoke';
 
-var d3 = Object.assign({}, require('d3-selection'));
+const d3 = Object.assign({}, require('d3-selection'));
 
 export default class VPC extends NetworkTemplate1 {
   init() {

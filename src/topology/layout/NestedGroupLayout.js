@@ -34,6 +34,7 @@
 
 import CustomLayout from './CustomLayout';
 import get from 'lodash/get';
+
 export default class NestedGroupLayout extends CustomLayout {
   updateRectPositionByMemberPosition(memberNodeData, moveDelta) {
     const { project } = this.props;

@@ -3,7 +3,6 @@
  * D3 SVG DOM，Topology.react.js dispatch
  *
  * @class D3Component
- * @param {dom} containerEl - DOM Tree node
  * @param {object} props - ex. {identifier, projectName, data, width, height, projectPath...}.
  * @author Samuel Hsin
  * @since 2019/04/17
@@ -196,8 +195,10 @@ export default class D3Component {
 
     // init zoom event
     const zoom = layout.initZoom(innerWrapper, [mainGroup], minimap, [width, height]);
+
     innerWrapper.call(zoom);
     layout.specialZoom(innerWrapper);
+
     if (initZoomScale !== layout.getZoomScale()) {
       layout.changeCanvasZoom(d3.zoomIdentity.translate(0, 0).scale(initZoomScale), 0, true);
     }
@@ -306,6 +307,7 @@ export default class D3Component {
         stateData = cloneDeep(propsData);
       } else {
         const temp = [];
+
         propsData.forEach(p => {
           const s = stateData.find(s => s.id === p.id);
           if (s) {
