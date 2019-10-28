@@ -4,7 +4,11 @@
       "id": "1",
       "name": "Database",
       "category": "endpoint",
-      "status": "published"
+      "status": "published",
+      "isGroup": true,
+      "isExpand": false,
+      "expandable": true,
+      "collapsible": true
     },
     {
       "id": "2",
@@ -18,6 +22,7 @@
       "category": "mapper",
       "status": "error",
       "views": ["number"],
+      "objNumber": 3,
       "isGroup": true,
       "isExpand": true,
       "expandable": true,
@@ -25,7 +30,7 @@
     },
     {
       "id": "5",
-      "name": "Database 2",
+      "name": "Mappings",
       "category": "container",
       "status": "unpublished",
       "views": ["setting"],
@@ -36,20 +41,15 @@
     },
     {
       "id": "6",
-      "name": "Another Log",
+      "name": "Source",
       "category": "example",
       "status": "update",
-      "views": ["lock", "setting"],
       "groupIds": ["5"],
-      "groupable": true,
-      "isGroup": true,
-      "isExpand": false,
-      "expandable": true,
-      "collapsible": true
+      "groupable": true
     },
     {
       "id": "7",
-      "name": "Something",
+      "name": "Target",
       "category": "example",
       "status": "pending",
       "views": ["lock"],

@@ -46,16 +46,6 @@ export default class VPC extends NetworkTemplate1 {
         nodesById[n.id] = n;
       });
     }
-
-    //link port target and source
-    if (links) {
-      links.forEach(link => {
-        if (['portLine', 'subLine'].indexOf(link.type) !== -1) {
-          link.source = subData[link.from] || nodesById[link.from] || {};
-          link.target = subData[link.to] || nodesById[link.to] || {};
-        }
-      });
-    }
   }
 
   addNodeContent(newNodeDom, data) {
@@ -112,7 +102,6 @@ class IntegrationLayout extends NestedGroupLayout {
           break;
         default:
           position = this.getAvailablePosition(existedPositions, { x: 0, y: -50 }, { direction: 'hRight' });
-          //position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
       }
     }
     return position;
@@ -135,7 +124,7 @@ class IntegrationLayout extends NestedGroupLayout {
         subData.y = centerposition.y;
       };
       mainGroup.selectAll('path.subLine').attr('d', d => {
-        //update interface or port dom data position
+        // Update interface or port dom data position
         const updatePositionFunc = data => {
           const temp = [get(data, 'role')];
           if (temp.indexOf('interface') !== -1 || temp.indexOf('commonPort') !== -1) {
