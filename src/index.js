@@ -50,12 +50,13 @@ function App() {
          * Handle data mapper step separately
          */
         if(step.stepKind === 'mapper') {
-          const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
+          //const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
 
           const newStep = {
-            index: idx,
+            id: idx,
             name: step.name || step.connection.connector.name || null,
             category: step.stepKind,
+            views: ['number'],
             isGroup: true,
             isExpand: false,
             expandable: true,
@@ -65,17 +66,47 @@ function App() {
           newNodes.push(newStep);
 
           /**
+           * Create container for sub-groups
+           * @type {number}
+           */
+          const containerIdx = idx + 1234;
+          const container = {
+            id: containerIdx,
+            name: 'Mappings',
+            category: 'container',
+            status: 'unpublished',
+            views: ['setting'],
+            groupIds: [idx],
+            isGroup: true,
+            isExpand: false,
+            expandable: true,
+            collapsible: true
+          };
+
+          newNodes.push(container);
+
+          /**
            * Handle links for actual data mapper step
            * If index is 0, skip, otherwise subtract 1 for link
            */
 
           /**
-           * Sub-groups while you still have the ID
+           * Sub-groups while you still have the ID for the parent group
            * Handle sub-group links
            * To/from data mapper step
            * To/from each other
            * If index is 0, skip, otherwise subtract 1 for link
            **/
+          /*mappings.forEach((mapping, mappingIdx) => {
+            newNodes.push({
+              id: mapping.index || mappingIdx,
+              name: mapping.inputField[0].name + ' to ' + mapping.outputField[0].name,
+              groupIds: containerIdx, // from container ID
+              category: 'example',
+              status: 'update',
+              groupable: true
+            });
+          });*/
         } else {
           const newStep = {
             index: idx,

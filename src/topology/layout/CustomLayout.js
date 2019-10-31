@@ -34,6 +34,7 @@ import DefaultLayout from './DefaultLayout';
 import get from 'lodash/get';
 import invoke from 'lodash/invoke';
 import { event as d3Event } from 'd3-selection';
+
 const d3 = Object.assign({}, require('d3-selection'), require('d3-drag'));
 
 export default class CustomLayout extends DefaultLayout {
@@ -54,8 +55,7 @@ export default class CustomLayout extends DefaultLayout {
         // dom.raise().classed('dragging', true);
         dom.classed('dragging', true);
       }
-      const dragPosition = { dragX: x, dragY: y };
-      me.tempDragPosition = dragPosition;
+      me.tempDragPosition = { dragX: x, dragY: y };
     };
 
     const onDrag = data => {
@@ -105,8 +105,7 @@ export default class CustomLayout extends DefaultLayout {
       } else {
         dom.classed('dragging', true);
       }
-      const dragPosition = { dragX: x, dragY: y };
-      me.tempDragPosition = dragPosition;
+      me.tempDragPosition = { dragX: x, dragY: y };
     };
 
     const onDrag = data => {
@@ -136,10 +135,7 @@ export default class CustomLayout extends DefaultLayout {
   initNodePosition(existedPositions, node) {
     let position;
     if (node && node.category && (node.x === undefined || node.y === undefined)) {
-      switch (node.category) {
-        default:
-          position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
-      }
+      position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
     }
     return position;
   }
@@ -192,7 +188,7 @@ export default class CustomLayout extends DefaultLayout {
       if (n.isGroup) {
         groupNodes.push(n);
       }
-      // initNodeAdditionalDistance
+
       if (initNodeAdditionalDistance !== undefined && !n.groupIds) {
         util.distanceNodePosition({ node: n, additionalDistance: initNodeAdditionalDistance, isExpand: true });
       }
