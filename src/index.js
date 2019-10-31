@@ -18,7 +18,6 @@ function App() {
   let newNodes = [];
 
   function handleDataMapperMapping(mapping, mappingIdx, containerIdx) {
-
     /**
      * Sub-groups while you still have the ID for the parent group
      * Handle sub-group links
@@ -36,35 +35,16 @@ function App() {
     });
   }
 
-  function handleDataMapper(step, idx) {
-    const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
-
-    const newStep = {
-      id: idx,
-      name: step.name || step.connection.connector.name || null,
-      category: step.stepKind,
-      views: ['number'],
-      status: 'error',
-      isGroup: true,
-      isExpand: false,
-      expandable: true,
-      collapsible: true
-    };
-
-    newNodes.push(newStep);
-
+  function handleDataMapperContainer(idx, containerIdx) {
     /**
      * Create container for sub-groups
-     * @type {number}
      */
-    const containerIdx = idx + '1234';
     const container = {
       id: containerIdx,
       name: 'Mappings',
       category: 'container',
       status: 'unpublished',
       views: ['setting'],
-      groupIds: [idx],
       isGroup: true,
       isExpand: false,
       expandable: true,
@@ -72,6 +52,29 @@ function App() {
     };
 
     newNodes.push(container);
+  }
+
+  function handleDataMapper(step, idx) {
+    const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
+
+    const newStep = {
+      id: idx,
+      name: step.name || step.connection.connector.name || null,
+      category: 'mapper',
+      views: ['number'],
+      status: 'error',
+      objNumber: mappings.length,
+      isGroup: true,
+      isExpand: true,
+      expandable: true,
+      collapsible: true
+    };
+
+    newNodes.push(newStep);
+
+    const containerIdx = idx + '1234';
+
+    handleDataMapperContainer(idx, containerIdx);
 
     /**
      * Handle links for actual data mapper step
@@ -89,43 +92,24 @@ function App() {
     let temp = data;
 
     function syndesisHelper(originalJson) {
-
       /**
        * TODO: Replace with Interface + TS
-       * Expected values from the main component
-       * { 'nodes': [
-       *   {
-       *     'id': string,
-       *     'name': string,
-       *     'category': string,
-       *     'status': string,
-       *     'isGroup'?: boolean,
-       *     'isExpand'?: boolean,
-       *     'expandable'?: boolean,
-       *     'collapsible'?: boolean
-       *   }
-       * ] }
-       */
-
-
-      /**
        * Iterate over each step
        * Accommodate data structure
        */
       const steps = originalJson.flows ? originalJson.flows[0].steps : [];
 
       steps.forEach((step, idx) => {
+        const stringId = idx.toString();
         /**
          * Handle data mapper step separately
          */
         if(step.stepKind === 'mapper') {
-
-          handleDataMapper(step, idx);
-
+          handleDataMapper(step, stringId);
         } else {
           const newStep = {
-            index: idx,
-            name: step.name || step.connection.connector.name || null,
+            id: stringId,
+            name: step.name || step.connection.connector.name,
             category: step.stepKind
           };
 
@@ -145,6 +129,8 @@ function App() {
       const newSet = {nodes: newNodes, links: newLinks};
 
       //console.log('newSet: ' + JSON.stringify(newSet));
+
+      console.log(newSet);
 
       setData(newSet);
     }
