@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Topology from './topology/Topology';
-//import integrationJson from './data/integration.json';
 import integrationJson from './data/import.json';
-//import integrationJson from './data/mapping.json';
-//import syndesisHelper from './topology/util/SyndesisHelper';
 
 import './styles.css';
 
@@ -16,31 +13,69 @@ function App() {
 
   let newLinks = [];
   let newNodes = [];
+  let dataMapperContainerId;
+  let dataMapperInputContainerId;
+  let dataMapperOutputContainerId;
 
-  function handleDataMapperMapping(mapping, mappingIdx, containerIdx) {
+  function handleDataMapperMapping(mapping, mappingIdx) {
     /**
-     * Sub-groups while you still have the ID for the parent group
-     * Handle sub-group links
-     * To/from data mapper step
-     * To/from each other
-     * If index is 0, skip, otherwise subtract 1 for link
+     * Individual mappings from the data mapper step
      **/
     newNodes.push({
-      id: 'map-' + mappingIdx,
-      name: mapping.inputField[0].name + ' to ' + mapping.outputField[0].name,
-      groupIds: [containerIdx], // from container ID
+      id: 'map-input-' + mappingIdx,
+      name: mapping.inputField[0].name,
+      groupIds: [dataMapperInputContainerId],
+      category: 'example',
+      status: 'update',
+      groupable: true
+    });
+
+    newNodes.push({
+      id: 'map-output-' + mappingIdx,
+      name: mapping.outputField[0].name,
+      groupIds: [dataMapperOutputContainerId],
       category: 'example',
       status: 'update',
       groupable: true
     });
   }
 
-  function handleDataMapperContainers(idx, containerIdx) {
+  function handleDataMapperFieldContainers(idx) {
+    /**
+     * Displays the input fields
+     */
+    const containerForInput = {
+      id: dataMapperInputContainerId,
+      name: 'Input Fields',
+      category: 'fields',
+      groupIds: [dataMapperContainerId],
+      groupable: true,
+      expandable: true,
+      collapsible: true
+    };
+
+    /**
+     * Displays the output fields
+     */
+    const containerForOutput = {
+      id: dataMapperOutputContainerId,
+      name: 'Output Fields',
+      category: 'fields',
+      groupIds: [dataMapperContainerId],
+      groupable: true,
+      expandable: true,
+      collapsible: true
+    };
+
+    newNodes.push(containerForInput, containerForOutput);
+  }
+  
+  function handleDataMapperContainer(idx) {
     /**
      * Create container for sub-groups
      */
     const container = {
-      id: containerIdx,
+      id: dataMapperContainerId,
       name: 'Mappings',
       category: 'container',
       views: ['setting', 'colorTag-01'],
@@ -50,29 +85,7 @@ function App() {
       collapsible: true
     };
 
-    /**
-     * Displays the input fields
-     */
-    const containerForInput = {
-      id: 'input-' + idx,
-      name: 'Input Fields',
-      category: 'example',
-      groupIds: [containerIdx],
-      groupable: true
-    };
-
-    /**
-     * Displays the output fields
-     */
-    const containerForOutput = {
-      id: 'output-' + idx,
-      name: 'Output Fields',
-      category: 'example',
-      groupIds: [containerIdx],
-      groupable: true
-    };
-
-    newNodes.push(container, containerForInput, containerForOutput);
+    newNodes.push(container);
   }
 
   function handleDataMapper(step, idx) {
@@ -93,9 +106,12 @@ function App() {
 
     newNodes.push(newStep);
 
-    const containerIdx = idx + '1234';
+    dataMapperContainerId = 'mapper-container-' + idx;
+    dataMapperInputContainerId = 'mapper-input-container-' + idx;
+    dataMapperOutputContainerId = 'mapper-output-container-' + idx;
 
-    handleDataMapperContainers(idx, containerIdx);
+    handleDataMapperContainer(idx);
+    handleDataMapperFieldContainers(idx);
 
     /**
      * Handle links for actual data mapper step
@@ -103,16 +119,16 @@ function App() {
      */
 
     // From inline node of data mapper to Mappings container
-    newLinks.push({ id: 'l-container-' + idx, from: idx, to: containerIdx });
+    newLinks.push({ id: 'l-container-' + idx, from: idx, to: dataMapperContainerId });
 
     // From inline Data Mapper node of data mapper to Input fields, when Mappings container is expanded
-    newLinks.push({ id: 'l-input-fields-' + idx, from: idx, to: 'input-' + idx });
+    newLinks.push({ id: 'l-input-fields-' + idx, from: idx, to: dataMapperInputContainerId });
 
     // From inline Data Mapper node of data mapper to Output fields, when Mappings container is expanded
-    newLinks.push({ id: 'l-output-fields-' + idx, from: idx, to: 'output-' + idx });
+    newLinks.push({ id: 'l-output-fields-' + idx, from: idx, to: dataMapperOutputContainerId });
 
     mappings.forEach((mapping, mappingIdx) => {
-      handleDataMapperMapping(mapping, mappingIdx, containerIdx);
+      handleDataMapperMapping(mapping, mappingIdx);
     });
   }
 
@@ -160,13 +176,7 @@ function App() {
         if (id !== 0) {newLinks.push({ id: 'l-prev-node' + id, from: id - 1, to: id })}
       });
 
-      const newSet = {nodes: newNodes, links: newLinks};
-
-      //console.log('newSet: ' + JSON.stringify(newSet));
-
-      console.log(newSet);
-
-      setData(newSet);
+      setData({nodes: newNodes, links: newLinks});
     }
 
     if (projectName === 'Integration') {

@@ -37,6 +37,16 @@ export const nodeType = {
       width: mdSize,
       height: mdSize
     },
+    // Used for data mapper
+    fields: {
+      type: 'fields',
+      iconType: 'text',
+      icon: '\uf108', // computer
+      iconScale: mdIcon,
+      fontSize: '25px',
+      width: mdSize,
+      height: mdSize
+    },
     split: {
       type: 'split',
       iconType: 'text',

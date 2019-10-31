@@ -100,6 +100,9 @@ class IntegrationLayout extends NestedGroupLayout {
         case 'example':
           position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
           break;
+        case 'fields':
+          position = this.getAvailablePosition(existedPositions, { x: 0, y: 0 }, { direction: 'hRight' });
+          break;
         default:
           position = this.getAvailablePosition(existedPositions, { x: 0, y: -50 }, { direction: 'hRight' });
       }

@@ -273,6 +273,14 @@ export default class DefaultLayout {
     }
   }
 
+  /**
+   * Calculate available positions based on existing nodes.
+   * @param existedPositions
+   * @param assignedPosition
+   * @param direction
+   * @param movement
+   * @return {{x: *, y: *}}
+   */
   getAvailablePosition(existedPositions, assignedPosition, { direction, movement = 100 }) {
     const temp = assignedPosition;
     if (existedPositions && assignedPosition && direction) {
