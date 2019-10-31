@@ -51,6 +51,7 @@ function App() {
       groupIds: [dataMapperContainerId],
       groupable: true,
       expandable: true,
+      isExpand: true,
       collapsible: true
     };
 
@@ -63,6 +64,7 @@ function App() {
       category: 'fields',
       groupIds: [dataMapperContainerId],
       groupable: true,
+      isExpand: true,
       expandable: true,
       collapsible: true
     };
@@ -141,7 +143,6 @@ function App() {
       /**
        * TODO: Replace with Interface + TS
        * Iterate over each step
-       * Accommodate data structure
        */
       const steps = originalJson.flows ? originalJson.flows[0].steps : [];
 
@@ -169,8 +170,6 @@ function App() {
 
         /**
          * Handle links
-         * If index is 0, skip, otherwise subtract 1 for link
-         * If not first, from previous node to current node
          */
         if (id !== 0) {newLinks.push({ id: 'l-prev-node' + id, from: id - 1, to: id })}
       });
