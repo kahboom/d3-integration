@@ -35,7 +35,7 @@ function App() {
     });
   }
 
-  function handleDataMapperContainer(idx, containerIdx) {
+  function handleDataMapperContainers(idx, containerIdx) {
     /**
      * Create container for sub-groups
      */
@@ -51,7 +51,31 @@ function App() {
       collapsible: true
     };
 
-    newNodes.push(container);
+    /**
+     * Displays the input fields
+     */
+    const containerForInput = {
+      id: 'input-' + idx,
+      name: 'Input Fields',
+      category: 'example',
+      status: 'update',
+      groupIds: [containerIdx],
+      groupable: true
+    };
+
+    /**
+     * Displays the output fields
+     */
+    const containerForOutput = {
+      id: 'output-' + idx,
+      name: 'Output Fields',
+      category: 'example',
+      status: 'update',
+      groupIds: [containerIdx],
+      groupable: true
+    };
+
+    newNodes.push(container, containerForInput, containerForOutput);
   }
 
   function handleDataMapper(step, idx) {
@@ -74,14 +98,21 @@ function App() {
 
     const containerIdx = idx + '1234';
 
-    handleDataMapperContainer(idx, containerIdx);
+    handleDataMapperContainers(idx, containerIdx);
 
     /**
      * Handle links for actual data mapper step
      * If index is 0, skip, otherwise subtract 1 for link
      */
-    const linkTest = { id: 'l' + idx, from: idx, to: containerIdx };
-    newLinks.push(linkTest);
+
+    // From inline node of data mapper to Mappings container
+    newLinks.push({ id: 'l-container-' + idx, from: idx, to: containerIdx });
+
+    // From inline Data Mapper node of data mapper to Input fields, when Mappings container is expanded
+    newLinks.push({ id: 'l-input-fields-' + idx, from: idx, to: 'input-' + idx });
+
+    // From inline Data Mapper node of data mapper to Output fields, when Mappings container is expanded
+    newLinks.push({ id: 'l-output-fields-' + idx, from: idx, to: 'output-' + idx });
 
     mappings.forEach((mapping, mappingIdx) => {
       handleDataMapperMapping(mapping, mappingIdx, containerIdx);
@@ -89,6 +120,7 @@ function App() {
   }
 
   useEffect(() => {
+    let id;
     let temp = data;
 
     function syndesisHelper(originalJson) {
@@ -100,30 +132,29 @@ function App() {
       const steps = originalJson.flows ? originalJson.flows[0].steps : [];
 
       steps.forEach((step, idx) => {
-        const stringId = idx.toString();
+        id = idx.toString();
         /**
          * Handle data mapper step separately
          */
         if(step.stepKind === 'mapper') {
-          handleDataMapper(step, stringId);
+          handleDataMapper(step, id);
         } else {
           const newStep = {
-            id: stringId,
+            id: id,
             name: step.name || step.connection.connector.name,
+            status: originalJson.currentState.toLowerCase(),
             category: step.stepKind
           };
 
           newNodes.push(newStep);
-
-          /**
-           * Handle links
-           * If index is 0, skip, otherwise subtract 1 for link
-           */
         }
 
         /**
-         * Alternatively, you can handle links separately?
+         * Handle links
+         * If index is 0, skip, otherwise subtract 1 for link
+         * If not first, from previous node to current node
          */
+        if (id !== 0) {newLinks.push({ id: 'l-prev-node' + id, from: id - 1, to: id })}
       });
 
       const newSet = {nodes: newNodes, links: newLinks};
