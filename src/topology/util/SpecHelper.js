@@ -1,16 +1,19 @@
 import d3TopoUtil from './d3TopoUtil';
 import defaultsDeep from 'lodash/defaultsDeep';
 import isEmpty from 'lodash/isEmpty';
+
 const d3 = Object.assign({}, require('d3-scale'), require('d3-scale-chromatic'), require('d3-shape'));
 const configurations = {};
+
 export function setup({ identifier, projectName, configs, nodeTypeSpec, linkTypeSpec, statusSpec, viewSpec, toolbarSpec }) {
-  // console.debug('setup D3TopoHelper...');
   if (!identifier) {
     identifier = 'unknown';
   }
+
   const configuration = (configurations[identifier] = {});
   d3TopoUtil.replaceIconByBrowser(nodeTypeSpec);
   const nodeTypeKeys = nodeTypeSpec ? Object.keys(nodeTypeSpec) : [];
+
   configuration['projectName'] = projectName;
   configuration['configs'] = configs;
   configuration['nodeType'] = nodeTypeSpec;
@@ -39,13 +42,16 @@ export function setup({ identifier, projectName, configs, nodeTypeSpec, linkType
 class Helper {
   configuration;
   utils;
+
   constructor(configuration) {
     this.configuration = configuration;
     this.initD3Utils();
   }
+
   initD3Utils() {
     this.utils = {};
     this.utils.colors = d3.scaleOrdinal(d3.schemeCategory10);
+
     this.utils.curve = d3
       .line()
       .x(function(d) {
@@ -56,9 +62,11 @@ class Helper {
       })
       .curve(d3.curveLinear);
   }
+
   getProjectName() {
     return this.configuration['projectName'];
   }
+
   getConfigs() {
     return this.configuration['configs'];
   }
@@ -87,6 +95,7 @@ class Helper {
     const LinkType = this.configuration['linkType'];
     let typeStyle = {};
     const typeObj = drawType === 'node' ? NodeType : LinkType;
+
     if (category && typeObj[category]) {
       typeStyle = typeObj[category];
     } else {
@@ -102,6 +111,7 @@ class Helper {
     let dataStyle;
     const statusStyle = this.findStatusStyle(data, drawType);
     const views = data.views;
+
     if (views && views.length > 0) {
       const viewsStyle = this.findViewsStyle(data, drawType);
       dataStyle = defaultsDeep({}, statusStyle, ...viewsStyle);
@@ -117,6 +127,7 @@ class Helper {
     // console.debug('find views style !');
     let viewsStyle;
     const views = data.views;
+
     if (views && views.length > 0) {
       if (drawType === 'node') {
         viewsStyle = views.map(view => this.findViewStyle(view, drawType));
@@ -124,6 +135,7 @@ class Helper {
         viewsStyle = views.map(view => this.findViewStyle(view, drawType));
       }
     }
+
     if (!viewsStyle) {
       viewsStyle = [];
     }
@@ -137,6 +149,7 @@ class Helper {
     let viewStyle = {};
     const NodeView = this.configuration['nodeView'];
     const LinkView = this.configuration['linkView'];
+
     if (view) {
       const mainView = view.split('-')[0];
       if (drawType === 'node') {
@@ -145,9 +158,11 @@ class Helper {
         viewStyle = LinkView[mainView];
       }
     }
+
     if (!viewStyle) {
       viewStyle = {};
     }
+
     return viewStyle;
   }
 
@@ -160,6 +175,7 @@ class Helper {
     const NodeToolbar = this.configuration['nodeToolbar'];
     const GroupToolbar = this.configuration['groupToolbar'];
     const LinkToolbar = this.configuration['linkToolbar'];
+
     if (toolbar && toolbar.length > 0) {
       if (drawType === 'node') {
         toolbarStyle = NodeToolbar;
@@ -169,6 +185,7 @@ class Helper {
         toolbarStyle = LinkToolbar;
       }
     }
+
     if (!toolbarStyle) {
       toolbarStyle = {};
     }
@@ -184,6 +201,7 @@ class Helper {
     const NodeStatus = this.configuration['nodeStatus'];
     const LinkStatus = this.configuration['linkStatus'];
     const DefaultStatus = this.configuration['defaultStatus'];
+
     if (status) {
       if (drawType === 'node') {
         statusStyle = NodeStatus[status];
@@ -191,6 +209,7 @@ class Helper {
           statusStyle = DefaultStatus;
           // console.warn("[Topology] Status not defined in category : '", data.category, "', status : '", status, "'", data.id);
         }
+
         statusStyle = this.hiddenPolicy(data, statusStyle);
       } else {
         statusStyle = LinkStatus[status];
@@ -202,6 +221,7 @@ class Helper {
       }
       // console.warn('[Topology] You need \'status\' in your data!', drawType, data.id, data.category);
     }
+
     return statusStyle;
   }
 
@@ -211,6 +231,7 @@ class Helper {
       // console.debug('hiddenPolicy --> Service', data, statusStyle);
       statusStyle.visibility = false;
     }
+
     return statusStyle;
   }
 }

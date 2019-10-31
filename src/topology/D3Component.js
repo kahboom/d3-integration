@@ -86,8 +86,7 @@ export default class D3Component {
     } = this.props;
 
     const state = this.state;
-    const center = [width / 2, height / 2];
-    const initPosition = center;
+    const initPosition = [width / 2, height / 2];
 
     // init project and layout
     /**
@@ -166,7 +165,7 @@ export default class D3Component {
     /**
      * Initiate zoomer
      * It's important to translate position into initPosition for node-link locations.
-     * @type {Selection<BaseType, Datum, PElement, PDatum>}
+     * @type {Selection<BaseType>}
      */
     const innerWrapper = svg
       .append('g')
@@ -190,7 +189,7 @@ export default class D3Component {
 
     /**
      * Initiate main group
-     * @type {Selection<BaseType, Datum, PElement, PDatum>}
+     * @type {Selection<BaseType>}
      */
     const mainGroup = innerWrapper
       .append('g')
@@ -261,6 +260,7 @@ export default class D3Component {
       },
       true
     );
+
     svg.node().addEventListener(
       'unselectAll',
       () => {
