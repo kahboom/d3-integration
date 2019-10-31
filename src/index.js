@@ -114,8 +114,7 @@ function App() {
     handleDataMapperFieldContainers(idx);
 
     /**
-     * Handle links for actual data mapper step
-     * If index is 0, skip, otherwise subtract 1 for link
+     * Handle links for data mapper step
      */
 
     // From inline node of data mapper to Mappings container
