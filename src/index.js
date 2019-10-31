@@ -51,7 +51,7 @@ function App() {
       groupIds: [dataMapperContainerId],
       groupable: true,
       expandable: true,
-      isExpand: true,
+      isExpand: false,
       collapsible: true
     };
 
@@ -64,7 +64,7 @@ function App() {
       category: 'fields',
       groupIds: [dataMapperContainerId],
       groupable: true,
-      isExpand: true,
+      isExpand: false,
       expandable: true,
       collapsible: true
     };
