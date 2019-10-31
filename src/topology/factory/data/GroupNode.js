@@ -36,7 +36,7 @@ export default {
           if (id && temp.id === id) {
             result = temp;
             return true;
-          }
+          } else { return false }
         });
       } else {
         const keys = Object.keys(obj);
@@ -47,6 +47,8 @@ export default {
           if (id && temp.id === id) {
             result = temp;
             return true;
+          } else {
+            return false;
           }
         });
       }
@@ -72,6 +74,8 @@ export default {
           if (node.groupIds.indexOf(temp.id) !== -1) {
             groupNode = temp;
             return true;
+          } else {
+            return false;
           }
         });
         // recollect group node in nodes
@@ -81,6 +85,8 @@ export default {
               groupNode = temp;
               dummyGroupNodes.push(groupNode);
               return true;
+            } else {
+              return false;
             }
           });
         }
@@ -100,9 +106,7 @@ export default {
               groupNode.toolbar = [];
             }
             const hasExpandFunction = groupNode.toolbar.some(func => {
-              if (func.name === 'expand') {
-                return true;
-              }
+              return func.name === 'expand';
             });
             if (!hasExpandFunction) {
 
@@ -269,6 +273,8 @@ export default {
             if (intersection(doubleRelatedIds, tempIds).length > 0) {
               relatedGroupNodes = temp;
               return true;
+            } else {
+              return false;
             }
           });
           if (relatedGroupNodes) {

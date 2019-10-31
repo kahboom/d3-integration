@@ -158,9 +158,7 @@ ViewGenerator.updateColorTagView = function(reference, parentDom, { data, topoSp
           const element = tag;
           if (element !== null) {
             const exist = colorTags.some(colorTag => {
-              if (element.classList.contains(colorTag)) {
-                return true;
-              }
+              return element.classList.contains(colorTag);
             });
             if (!exist) {
               // remove tag

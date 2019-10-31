@@ -14,6 +14,77 @@ function App() {
   const [data, setData] = useState(undefined);
   const projectName = 'Integration';
 
+  let newLinks = [];
+  let newNodes = [];
+
+  function handleDataMapperMapping(mapping, mappingIdx, containerIdx) {
+
+    /**
+     * Sub-groups while you still have the ID for the parent group
+     * Handle sub-group links
+     * To/from data mapper step
+     * To/from each other
+     * If index is 0, skip, otherwise subtract 1 for link
+     **/
+    newNodes.push({
+      id: 'map-' + mappingIdx,
+      name: mapping.inputField[0].name + ' to ' + mapping.outputField[0].name,
+      groupIds: [containerIdx], // from container ID
+      category: 'example',
+      status: 'update',
+      groupable: true
+    });
+  }
+
+  function handleDataMapper(step, idx) {
+    const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
+
+    const newStep = {
+      id: idx,
+      name: step.name || step.connection.connector.name || null,
+      category: step.stepKind,
+      views: ['number'],
+      status: 'error',
+      isGroup: true,
+      isExpand: false,
+      expandable: true,
+      collapsible: true
+    };
+
+    newNodes.push(newStep);
+
+    /**
+     * Create container for sub-groups
+     * @type {number}
+     */
+    const containerIdx = idx + '1234';
+    const container = {
+      id: containerIdx,
+      name: 'Mappings',
+      category: 'container',
+      status: 'unpublished',
+      views: ['setting'],
+      groupIds: [idx],
+      isGroup: true,
+      isExpand: false,
+      expandable: true,
+      collapsible: true
+    };
+
+    newNodes.push(container);
+
+    /**
+     * Handle links for actual data mapper step
+     * If index is 0, skip, otherwise subtract 1 for link
+     */
+    const linkTest = { id: 'l' + idx, from: idx, to: containerIdx };
+    newLinks.push(linkTest);
+
+    mappings.forEach((mapping, mappingIdx) => {
+      handleDataMapperMapping(mapping, mappingIdx, containerIdx);
+    });
+  }
+
   useEffect(() => {
     let temp = data;
 
@@ -22,22 +93,20 @@ function App() {
       /**
        * TODO: Replace with Interface + TS
        * Expected values from the main component
-       * { "nodes": [
+       * { 'nodes': [
        *   {
-       *     "id": string,
-       *     "name": string,
-       *     "category": string,
-       *     "status": string,
-       *     "isGroup"?: boolean,
-       *     "isExpand"?: boolean,
-       *     "expandable"?: boolean,
-       *     "collapsible"?: boolean
+       *     'id': string,
+       *     'name': string,
+       *     'category': string,
+       *     'status': string,
+       *     'isGroup'?: boolean,
+       *     'isExpand'?: boolean,
+       *     'expandable'?: boolean,
+       *     'collapsible'?: boolean
        *   }
        * ] }
        */
 
-      let newLinks = [];
-      let newNodes = [];
 
       /**
        * Iterate over each step
@@ -50,63 +119,9 @@ function App() {
          * Handle data mapper step separately
          */
         if(step.stepKind === 'mapper') {
-          //const mappings = JSON.parse(step.configuredProperties.atlasmapping).AtlasMapping.mappings.mapping;
 
-          const newStep = {
-            id: idx,
-            name: step.name || step.connection.connector.name || null,
-            category: step.stepKind,
-            views: ['number'],
-            isGroup: true,
-            isExpand: false,
-            expandable: true,
-            collapsible: true
-          };
+          handleDataMapper(step, idx);
 
-          newNodes.push(newStep);
-
-          /**
-           * Create container for sub-groups
-           * @type {number}
-           */
-          const containerIdx = idx + 1234;
-          const container = {
-            id: containerIdx,
-            name: 'Mappings',
-            category: 'container',
-            status: 'unpublished',
-            views: ['setting'],
-            groupIds: [idx],
-            isGroup: true,
-            isExpand: false,
-            expandable: true,
-            collapsible: true
-          };
-
-          newNodes.push(container);
-
-          /**
-           * Handle links for actual data mapper step
-           * If index is 0, skip, otherwise subtract 1 for link
-           */
-
-          /**
-           * Sub-groups while you still have the ID for the parent group
-           * Handle sub-group links
-           * To/from data mapper step
-           * To/from each other
-           * If index is 0, skip, otherwise subtract 1 for link
-           **/
-          /*mappings.forEach((mapping, mappingIdx) => {
-            newNodes.push({
-              id: mapping.index || mappingIdx,
-              name: mapping.inputField[0].name + ' to ' + mapping.outputField[0].name,
-              groupIds: containerIdx, // from container ID
-              category: 'example',
-              status: 'update',
-              groupable: true
-            });
-          });*/
         } else {
           const newStep = {
             index: idx,
@@ -127,7 +142,7 @@ function App() {
          */
       });
 
-      const newSet = {nodes: newNodes};
+      const newSet = {nodes: newNodes, links: newLinks};
 
       //console.log('newSet: ' + JSON.stringify(newSet));
 
@@ -160,8 +175,8 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Topology identifier="topology" mode="2d" projectName={projectName} data={data} width={width} height={height} enableGroup />
+    <div className='App'>
+      <Topology identifier='topology' mode='2d' projectName={projectName} data={data} width={width} height={height} enableGroup />
     </div>
   );
 }

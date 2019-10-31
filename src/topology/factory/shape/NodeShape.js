@@ -380,9 +380,7 @@ export default class NodeShape extends Shape2D {
           const thisDom = d3.select(this);
           const classNames = thisDom.attr('class');
           const exist = tools.some(tool => {
-            if (classNames.indexOf(tool.name) !== -1) {
-              return true;
-            }
+            return classNames.indexOf(tool.name) !== -1;
           });
           if (!exist) {
             thisDom.remove();

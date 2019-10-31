@@ -1,5 +1,4 @@
 /**
- * 資料格式
  * data: {
  *  id, from, to, status, zIndex, name,
  *  sourceFlow, targetFlow,
@@ -129,6 +128,7 @@ export default class TwoWayLine extends Shape2D {
     const controlPoint = this.getControlPoint(source, target, data);
     switch (lineType) {
       case 'sourceToTargetArrow':
+      default:
         result = this.genArrow(source, controlPoint, arrowInfo.sourceLength, arrowInfo.sourceWidth);
         break;
       case 'targetToSourceArrow':
