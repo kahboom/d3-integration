@@ -43,8 +43,7 @@ function App() {
       id: containerIdx,
       name: 'Mappings',
       category: 'container',
-      status: 'unpublished',
-      views: ['setting'],
+      views: ['setting', 'colorTag-01'],
       isGroup: true,
       isExpand: false,
       expandable: true,
@@ -58,7 +57,6 @@ function App() {
       id: 'input-' + idx,
       name: 'Input Fields',
       category: 'example',
-      status: 'update',
       groupIds: [containerIdx],
       groupable: true
     };
@@ -70,7 +68,6 @@ function App() {
       id: 'output-' + idx,
       name: 'Output Fields',
       category: 'example',
-      status: 'update',
       groupIds: [containerIdx],
       groupable: true
     };
@@ -119,6 +116,8 @@ function App() {
     });
   }
 
+
+
   useEffect(() => {
     let id;
     let temp = data;
@@ -131,8 +130,12 @@ function App() {
        */
       const steps = originalJson.flows ? originalJson.flows[0].steps : [];
 
+      const statusList = ['published', 'unpublished', 'error', 'pending', 'deleting'];
+
       steps.forEach((step, idx) => {
         id = idx.toString();
+        const randomIndex = Math.floor(Math.random() * statusList.length);
+
         /**
          * Handle data mapper step separately
          */
@@ -142,7 +145,7 @@ function App() {
           const newStep = {
             id: id,
             name: step.name || step.connection.connector.name,
-            status: originalJson.currentState.toLowerCase(),
+            status: id === 1 ? 'pending' : statusList[randomIndex],
             category: step.stepKind
           };
 
