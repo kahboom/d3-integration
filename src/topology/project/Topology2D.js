@@ -20,7 +20,6 @@ import DefaultAnimation from '../util/animation/DefaultAnimation';
 import DefaultLayout from '../layout/DefaultLayout';
 import { configs as configsPrototype } from './spec/configs';
 import { nodeType as nodeTypePrototype } from './spec/nodeType';
-import { linkType as linkTypePrototype } from './spec/linkType';
 import { status as statusPrototype } from './spec/status';
 import { view as viewPrototype } from './spec/view';
 import { toolbar as toolbarPrototype } from './spec/toolbar';
@@ -32,20 +31,25 @@ const d3 = Object.assign({}, require('d3-selection'));
 export default class Topology2D extends Based {
   init() {
     super.init();
-    const { identifier, projectName, configs, nodeType, linkType, status, view, toolbar } = this.props;
+    const { identifier, projectName, configs, nodeType, status, view, toolbar } = this.props;
 
     // merge spec
     const configsSpec = this.initSpec(this.getSpecByProject({ configs }).configs, this.getSpecByProject({ configs: configsPrototype }).configs);
     const nodeTypeSpec = this.initSpec(this.getSpecByProject({ nodeType }).nodeType, this.getSpecByProject({ nodeType: nodeTypePrototype }).nodeType);
-    const linkTypeSpec = this.initSpec(this.getSpecByProject({ linkType }).linkType, this.getSpecByProject({ linkType: linkTypePrototype }).linkType);
     const statusSpec = this.initSpec(this.getSpecByProject({ status }).status, this.getSpecByProject({ status: statusPrototype }).status);
     const viewSpec = this.initSpec(this.getSpecByProject({ view }).view, this.getSpecByProject({ view: viewPrototype }).view);
     const toolbarSpec = this.initSpec(this.getSpecByProject({ toolbar }).toolbar, this.getSpecByProject({ toolbar: toolbarPrototype }).toolbar);
     const animation = new DefaultAnimation(this.props);
-    const helper = setupSpec({ identifier, projectName, configs: configsSpec, nodeTypeSpec, linkTypeSpec, statusSpec, viewSpec, toolbarSpec });
-
     // setting state
-    this.state.spec = helper;
+    this.state.spec = setupSpec({
+      identifier,
+      projectName,
+      configs: configsSpec,
+      nodeTypeSpec,
+      statusSpec,
+      viewSpec,
+      toolbarSpec
+    });
     this.state.util = d3TopoUtil;
     this.state.animation = animation;
     this.state.layout = this.layout(this.props);
@@ -57,9 +61,10 @@ export default class Topology2D extends Based {
   layout(props) {
     return new DefaultLayout({ ...props, util: this.state.util, spec: this.state.spec, project: this });
   }
-  getSpecByProject({ configs, nodeType, linkType, status, view, toolbar }) {
+  getSpecByProject({ configs, nodeType, status, view, toolbar }) {
     const spec = {};
     const { projectName } = this.props;
+
     const getProjectData = (obj, projectName) => {
       let data = get(obj, projectName);
       if (!data) {
@@ -67,18 +72,20 @@ export default class Topology2D extends Based {
       }
       return data;
     };
+
     spec.configs = getProjectData(configs, projectName);
     spec.nodeType = getProjectData(nodeType, projectName);
-    spec.linkType = getProjectData(linkType, projectName);
     spec.status = getProjectData(status, projectName);
     spec.view = getProjectData(view, projectName);
     spec.toolbar = getProjectData(toolbar, projectName);
+
     return spec;
   }
   initiated() {
     const { mainGroupStyleClass } = this.props;
     this.state.mainGroup = d3.select(`g.${mainGroupStyleClass}`);
   }
+
   /**
     basic functions
   */

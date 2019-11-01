@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import parseSvgTransform from './svgTransformParser';
-//import { parse as parseSvgTransform } from 'svg-transform-parser';
 const d3 = Object.assign({}, require('d3-selection'), require('d3-scale'), require('d3-shape'));
 
 const d3TopoUtil = {
@@ -283,37 +282,9 @@ const d3TopoUtil = {
     return string ? parseSvgTransform(string) : {};
   },
 
-  getComponentCenterPosition(dom, parentDom) {
-    const position = { x: 0, y: 0 };
-    const domElement = dom.node();
-    if (domElement && parentDom) {
-      const bbox = domElement.getBBox();
-      const parentTranslateValue = this.getTranslateFromTransform(parentDom.attr('transform'));
-      const relatedX = bbox.x || 0;
-      const centerX = relatedX + bbox.width / 2 || 0;
-      const relatedY = bbox.y || 0;
-      const centerY = relatedY + bbox.height / 2 || 0;
-      position.x = parentTranslateValue[0] + centerX;
-      position.y = parentTranslateValue[1] + centerY;
-    }
-    return position;
-  },
-
   getAngleOfRightTriangle(hypotenuse, opposite) {
     const sinOfAngleX = opposite / hypotenuse; // 0.5
     return (Math.asin(sinOfAngleX) * 180) / Math.PI;
-  },
-
-  moveZIndex(zIndex, dom) {
-    if (zIndex !== undefined) {
-      // rearrange z-index
-      const parentNode = d3.select(dom.node().parentNode);
-      const zIndexStatumDom = parentNode.select(`desc.zIndex-${zIndex}-stratum`);
-      if (zIndexStatumDom.node() && parentNode.node()) {
-        // https://www.w3schools.com/jsref/met_node_insertbefore.asp
-        parentNode.node().insertBefore(dom.node(), zIndexStatumDom.node());
-      }
-    }
   },
 
   distanceNodePosition({ node, additionalDistance, isExpand, incremental = 'v' }) {

@@ -48,9 +48,12 @@ export default class NetworkTemplate1 extends Topology2D {
         event = new CustomEvent('unselectAll', { projectName });
         d3Event.target.dispatchEvent(event);
       };
+
       GroupNode.dealWithGroupData(nodes, links, { spec, dummyGroupLinks: this.dummyGroupLinks, dummyGroupNodes: this.dummyGroupNodes, groupNodeExpanding });
     }
+
     const keys = Object.keys(factory);
+
     keys.forEach(key => {
       factory[key].dataPreprocessing(nodes, links);
     });
@@ -59,6 +62,7 @@ export default class NetworkTemplate1 extends Topology2D {
   dataProcessed(nodes, links) {
     const { factory } = this.state;
     const keys = Object.keys(factory);
+
     keys.forEach(key => {
       factory[key].dataProcessed(nodes, links);
     });

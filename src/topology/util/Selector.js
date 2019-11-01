@@ -160,7 +160,7 @@ export default class Selector {
         state.selectedTargetInfo = [];
         // select again
         this.resetTempVars();
-        return;
+
       }
     }
   }

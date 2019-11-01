@@ -1,5 +1,3 @@
-// import _ from 'lodash';
-// import uuid from 'uuid';
 
 export const ShapeGenerator = {};
 

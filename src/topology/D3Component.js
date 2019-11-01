@@ -88,7 +88,6 @@ export default class D3Component {
     const state = this.state;
     const initPosition = [width / 2, height / 2];
 
-    // init project and layout
     /**
      * Initiate project & layout
      */

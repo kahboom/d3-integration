@@ -1,7 +1,4 @@
 /**
- * @description
- * 此檔為Topology Shape 2D最上層之抽象，如要實作拓撲形狀，可於繼承此檔進行實作
- *
  * @class Shape2D
  * @param {object} props - ex. {identifier, projectName, projectState...}
  * @author Samuel Hsin

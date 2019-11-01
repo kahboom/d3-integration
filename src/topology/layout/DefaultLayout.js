@@ -134,9 +134,13 @@ export default class DefaultLayout {
     return this.dragNode();
   }
 
-  dragStart() {}
+  dragStart() {
+    //console.log('Drag start');
+  }
 
-  dragging() {}
+  dragging() {
+    //console.log('Dragging..');
+  }
 
   dragEnd() {
     const { minimap } = this.state;
@@ -162,7 +166,7 @@ export default class DefaultLayout {
     state.zoomDoms = zoomDoms;
     state.minimap = minimap;
 
-    const zoom = (state.zoom = d3
+    return (state.zoom = d3
       .zoom()
       .scaleExtent([state.minZoomScale, state.maxZoomScale]) // scale minimum and maximum
       // .translateExtent([[0, 0], size]) //pan area
@@ -178,8 +182,6 @@ export default class DefaultLayout {
         this.zoomEnd();
         canvas.style('cursor', null);
       }));
-
-    return zoom;
   }
 
   zoomStart() {}

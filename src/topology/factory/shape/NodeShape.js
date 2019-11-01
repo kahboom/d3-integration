@@ -2,6 +2,7 @@ import Shape2D from './Shape2D';
 import get from 'lodash/get';
 import { event as d3Event } from 'd3-selection';
 const d3 = Object.assign({}, require('d3-selection'));
+
 export default class NodeShape extends Shape2D {
   appendIcon(parentDom, data) {
     const drawType = 'node';
@@ -37,7 +38,7 @@ export default class NodeShape extends Shape2D {
         }
       } else if (nodeStyle.iconType === 'image') {
         // console.debug('append base64icon', data.icon);
-        iconDom = shapeGenerator.newImage(parentDom, {
+        shapeGenerator.newImage(parentDom, {
           attributes: {
             class: 'node-icon',
             'xlink:href': this.getIconContent(data, nodeStyle),
@@ -68,6 +69,7 @@ export default class NodeShape extends Shape2D {
     viewProperties.forEach(viewType => {
       const enable = dataStyle[viewType + 'Enabled'];
       const viewProps = dataStyle[viewType + 'PropertyMap'];
+
       if (viewProps !== undefined) {
         if (['number', 'outline', 'linkLabel', 'colorTag'].indexOf(viewType) !== -1) {
           viewGenerator.new(this, gDom, { data, viewType, topoSpec: spec, viewProps });

@@ -78,6 +78,7 @@ export default {
             return false;
           }
         });
+
         // recollect group node in nodes
         if (!groupNode) {
           nodes.some(temp => {
@@ -90,6 +91,7 @@ export default {
             }
           });
         }
+
         if (!groupNode) {
           if (createDummyGroupNodeIfNecessary) {
             groupNode = me.generateDummyGroupData(nodeExt, dummyGroupCategory, dummyGroupName, dummyGroupStatus);
@@ -99,6 +101,7 @@ export default {
             }
           }
         }
+
         if (groupNode) {
 
           if (groupNode.expandable) {
@@ -148,9 +151,6 @@ export default {
             groupNode.visible = !groupNode.isExpand;
             node.visible = !groupNode.visible;
           }
-
-          // setting group status
-          me.settingGroupNodeStatusIterator(nodeType, groupNode, node);
 
           if (!groupNode.memberNodes) {
             groupNode.memberNodes = [];
@@ -261,6 +261,7 @@ export default {
   addVirtualLinkFromNode(cacheData, links, relatedNodes, node, isGroupLink) {
     if (relatedNodes) {
       const { dummyGroupNodes } = cacheData;
+
       relatedNodes.forEach(relatedNode => {
         this.addVirtualLink(cacheData, links, relatedNode, node, 'running', isGroupLink);
         // add group virtual link connecting to related group node
@@ -268,6 +269,7 @@ export default {
         if (doubleRelatedNodes) {
           let relatedGroupNodes;
           const doubleRelatedIds = doubleRelatedNodes.map(node => node.id);
+
           dummyGroupNodes.some(temp => {
             const tempIds = get(temp, 'relatedNodes', []).map(node => node.id);
             if (intersection(doubleRelatedIds, tempIds).length > 0) {
@@ -277,6 +279,7 @@ export default {
               return false;
             }
           });
+
           if (relatedGroupNodes) {
             this.addVirtualLink(cacheData, links, relatedGroupNodes, node, 'running', true);
           }
@@ -289,10 +292,12 @@ export default {
     if (!sourceNode || !targetNode) {
       return;
     }
+
     const { dummyGroupLinks } = cacheData;
     const exist = links.some(function(temp) {
       return temp.source && temp.target && temp.source.id === sourceNode.id && temp.target.id === targetNode.id;
     });
+
     if (!exist) {
       const groupLinkOid = uuid.v4();
       const virtualLink = {
@@ -314,10 +319,10 @@ export default {
   },
 
   generateDummyGroupData(nodeExt, groupCategory, groupName, groupStatus) {
-    const defaultCollapsed = nodeExt.defaultCollapsed === false ? false : true;
+    const defaultCollapsed = nodeExt.defaultCollapsed !== false;
     // newGroupNode = true;
     const groupNodeOid = 'node_' + uuid.v4();
-    const groupNode = VirtualNode.vertex({
+    return VirtualNode.vertex({
       oid: groupNodeOid,
       id: groupNodeOid,
       category: groupCategory,
@@ -329,14 +334,6 @@ export default {
       views: ['number'],
       toolbar: []
     });
-    return groupNode;
-  },
-
-  settingGroupNodeStatusIterator(nodeType, groupNode, node) {
-    const nodeCat = node.category;
-    switch (nodeCat) {
-      default:
-    }
   },
 
   generateGroupData(nodes, { spec }) {
@@ -358,9 +355,7 @@ export default {
     const nodeGroups = {};
     const nodesById = {};
     const rectGroups = [];
-    nodes.forEach(n => {
-      nodesById[n.id] = n;
-    });
+
     const groupColor = styles.groupColor;
     const groupColorOpacity = styles.groupColorOpacity;
     const groupBorderColor = styles.groupBorderColor;
@@ -368,6 +363,10 @@ export default {
     const bias = styles.bias;
     const offset = styles.offset;
     const updateHiddenGroupPositionWhenDragging = styles.updateHiddenGroupPositionWhenDragging;
+
+    nodes.forEach(n => {
+      nodesById[n.id] = n;
+    });
 
     let k = 0;
     while (k < nodes.length) {

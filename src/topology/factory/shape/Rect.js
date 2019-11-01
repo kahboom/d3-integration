@@ -1,10 +1,12 @@
 import NodeShape from './NodeShape';
 import get from 'lodash/get';
+
 export default class Rect extends NodeShape {
   create(dom, data) {
     this.appendRect(dom, data);
     this.addAnimation(dom, data);
   }
+
   update(dom, data) {
     this.updateRect(dom, data);
     this.updateIcon(dom, data, false);
@@ -13,10 +15,12 @@ export default class Rect extends NodeShape {
     this.updateToolbar(dom, data);
     this.transAnimation(dom, data);
   }
+
   delete(dom) {
     const { animation } = this.props.projectState;
     animation.stopAnimation(dom);
   }
+
   appendRect(newNodeDom, data) {
     const drawType = 'node';
     const { enableNodeLabel } = this.props;
